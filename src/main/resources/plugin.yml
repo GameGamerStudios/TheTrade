@@ -4,3 +4,12 @@ main: com.gamegamerstudios.theTrade.Plugin
 api-version: '1.8'
 authors: [ GameGamerStudios ]
 description: The best item-trading solution.
+commands:
+  trade:
+    usage: /trade <player>
+    description: Trade items and currency with other players.
+    permission: thetrade.trade
+permissions:
+  thetrade.trade:
+    description: Allows a player to trade with other players (/trade)
+    default: true

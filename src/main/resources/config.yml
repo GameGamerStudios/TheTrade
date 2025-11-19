@@ -1,0 +1,6 @@
+#The amount of time (in seconds) a trade request will last before it expires.
+#Default: 30
+requestDuration: 30
+
+#DO NOT CHANGE THIS! IT WILL BREAK THIS PLUGIN!
+fileVersion: 0
