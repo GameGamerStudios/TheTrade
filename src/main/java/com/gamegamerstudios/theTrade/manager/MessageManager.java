@@ -98,8 +98,8 @@ public class MessageManager {
         return results;
     }
 
-    public static String getPrefix() { return getMessage("prefix"); }
-    public static String getLogPrefix() { return getMessage("logprefix"); }
+    public static String getPrefix() { return config.getString(ChatColor.translateAlternateColorCodes('&', "prefix")); }
+    public static String getLogPrefix() { return config.getString(ChatColor.translateAlternateColorCodes('&', "logprefix")); }
 
     public static String colorize(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);

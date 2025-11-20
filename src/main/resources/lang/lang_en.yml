@@ -6,13 +6,26 @@ general:
 command:
   trade:
     usage: '%prefix% &cInvalid usage! /trade <player>'
+    needOtherPlayer: '%prefix% &cYou cannot trade with yourself!'
+  admin:
+    usage: '%prefix% &cInvalid usage! /tradeadmin help'
+    activetrades:
+      title: '%prefix% &eActive trades: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7- &e%player2%'
 trade:
-  newRequest: '%prefix% &eYou have a trade request from &a%player%. &a&lClick To Accept &7(or /trade accept)'
+  newRequest: '%prefix% &eYou have a trade request from &a%player%. &a&lClick To Accept &7(/trade <requester_name>)'
+  sent: '%prefix% &eYou sent a trade request to &a%player%. &eThey have &a%time%s &eto accept.'
   sentExpired: '%prefix% &eYour trade request to &a%player% &eexpired.'
   receivedExpired: '%prefix% &eYour trade request from &a%player% &eexpired.'
   requesterDenied: '%prefix% &a%player% &cdenied your trade request.'
   requestedDenied: "%prefix% &cYou declined &a%player%'s &ctrade request."
   playerOffline: '%prefix% &cYou trade request could not be accepted because &a%player% &cis offline.'
+  playerRequestCancel: '%prefix% &a%player% &ccanceled their trade request!'
+  cancelPlayer: '%prefix% &cYou canceled the trade.'
+  canceledOther: '%prefix% &a%player% &ccanceled the trade.'
+gui:
+  you: 'You'
+  otherPlayer: '%player%'
 
 #DO NOT CHANGE THIS! IT WILL BREAK THIS PLUGIN!
 fileVersion: 0

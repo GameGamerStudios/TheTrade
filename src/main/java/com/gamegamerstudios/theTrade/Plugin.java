@@ -1,15 +1,12 @@
 package com.gamegamerstudios.theTrade;
 
+import com.gamegamerstudios.theTrade.commands.TradeAdminCommand;
 import com.gamegamerstudios.theTrade.commands.TradeCommand;
 import com.gamegamerstudios.theTrade.manager.ConfigManager;
 import com.gamegamerstudios.theTrade.manager.MessageManager;
 import com.gamegamerstudios.theTrade.manager.RequestManager;
 import com.gamegamerstudios.theTrade.manager.TradeManager;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public final class Plugin extends JavaPlugin {
     private RequestManager requestManager;
@@ -27,6 +24,9 @@ public final class Plugin extends JavaPlugin {
 
     private void registerCommands() {
         getServer().getPluginCommand("trade").setExecutor(new TradeCommand(this));
+        TradeAdminCommand adminCommand = new TradeAdminCommand(this);
+        getServer().getPluginCommand("tradeadmin").setExecutor(adminCommand);
+        getServer().getPluginCommand("tradeadmin").setTabCompleter(adminCommand);
     }
 
     @Override

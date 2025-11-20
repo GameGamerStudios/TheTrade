@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +32,14 @@ public class RequestManager {
             return;
         }
 
-        player.sendMessage(MessageManager.getMessage("trade.newRequest"));
+        Player requesterPlayer = Bukkit.getPlayer(requester);
+        if (requesterPlayer != null && requesterPlayer.isOnline()) {
+            requesterPlayer.sendMessage(MessageManager.getMessage("trade.sent")
+                    .replace("%player%", requestedDisplay)
+                    .replace("%time%", REQUEST_DURATION + ""));
+        }
+
+        player.sendMessage(MessageManager.getMessage("trade.newRequest").replace("%player%", requesterDisplay));
     }
 
     public void cancelRequest(UUID requester) {
@@ -66,7 +74,7 @@ public class RequestManager {
         }
 
         if (request != null) {
-            request.cancelRequest();
+            request.cancelRequest(false);
             requests.invalidate(request);
         }
 
@@ -94,7 +102,7 @@ public class RequestManager {
             return;
         }
 
-        request.cancelRequest();
+        request.cancelRequest(false);
         requests.invalidate(request);
 
         Player requesterPlayer = Bukkit.getPlayer(requester);
@@ -119,12 +127,43 @@ public class RequestManager {
             return;
         }
 
+        cancelRequests(requester);
+        for (TradeRequest r : requests.asMap().keySet()) {
+            if (r.getRequestedUUID().equals(requested)) {
+                denyRequest(r.getRequesterUUID(), r.getRequestedUUID());
+            }
+        }
+
         plugin.getTradeManager().newTrade(requesterPlayer, requestedPlayer);
+    }
+
+    public void cancelRequests(UUID requester) {
+        Iterator<TradeRequest> iterator = requests.asMap().keySet().iterator();
+
+        while (iterator.hasNext()) {
+            if (iterator.next().getRequesterUUID().equals(requester)) {
+                iterator.next().cancelRequest(true);
+            }
+        }
+    }
+
+    public boolean hasRequest(UUID player) {
+        for (TradeRequest request : requests.asMap().keySet()) {
+            if (request.getRequestedUUID().equals(player)) return true;
+        }
+        return false;
+    }
+
+    public boolean hasRequest(UUID player, UUID from) {
+        for (TradeRequest request : requests.asMap().keySet()) {
+            if (request.getRequestedUUID().equals(player) && request.getRequesterUUID().equals(from)) return true;
+        }
+        return false;
     }
 
     public void shutdown() {
         for (TradeRequest request : requests.asMap().keySet()) {
-            request.cancelRequest();
+            request.cancelRequest(false);
         }
     }
 }

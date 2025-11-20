@@ -29,7 +29,7 @@ public class TradeRequest {
                 if (timeLeft == 0) {
                     Player requesterPlayer = Bukkit.getPlayer(requesterUUID);
                     if (requesterPlayer != null && requesterPlayer.isOnline()) {
-                        requesterPlayer.sendMessage(MessageManager.getMessage("trade.")
+                        requesterPlayer.sendMessage(MessageManager.getMessage("trade.sentExpired")
                                 .replace("%player%", requestedDisplay));
                     }
 
@@ -39,7 +39,7 @@ public class TradeRequest {
                                 .replace("%player%", requesterDisplay));
                     }
 
-                    cancelRequest();
+                    cancelRequest(false);
                 }
                 timeLeft--;
             }
@@ -47,11 +47,19 @@ public class TradeRequest {
                 0, 20);
     }
 
-    public void cancelRequest() {
+    public void cancelRequest(boolean fromPlayer) {
         if (this.task != null) {
             this.task.cancel();
         }
         this.task = null;
+
+        if (fromPlayer) {
+            Player target = Bukkit.getPlayer(requestedUUID);
+            if (target != null && target.isOnline()) {
+                target.sendMessage(MessageManager.getMessage("trade.playerRequestCancel")
+                        .replace("%player%", requesterDisplay));
+            }
+        }
     }
 
     public UUID getRequesterUUID() { return requesterUUID; }

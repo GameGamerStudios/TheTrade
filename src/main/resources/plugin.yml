@@ -9,7 +9,17 @@ commands:
     usage: /trade <player>
     description: Trade items and currency with other players.
     permission: thetrade.trade
+  tradeadmin:
+    usage: /tradeadmin help
+    description: See who is currently trading, prevent a player from trading, so much more!
+    permission: thetrade.admin
+    aliases:
+      - ta
+      - tradea
 permissions:
   thetrade.trade:
     description: Allows a player to trade with other players (/trade)
     default: true
+  thetrade.admin:
+    description: The admin permission for TheTrade.
+    default: op

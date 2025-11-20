@@ -1,3 +1,6 @@
+#The language you want the plugin to run in. Current options: 'lang_en' - English
+language: 'lang_en'
+
 #The amount of time (in seconds) a trade request will last before it expires.
 #Default: 30
 requestDuration: 30

@@ -21,7 +21,7 @@ public class TradeCommand implements CommandExecutor {
         }
         Player p = (Player) sender;
 
-        if (args.length == 0) {
+        if (args.length < 1) {
             p.sendMessage(MessageManager.getMessage("command.trade.usage"));
             return true;
         }
@@ -32,8 +32,22 @@ public class TradeCommand implements CommandExecutor {
             return true;
         }
 
+        if (plugin.getRequestManager().hasRequest(p.getUniqueId(), target.getUniqueId())) {
+            plugin.getRequestManager().acceptRequest(target.getUniqueId(), p.getUniqueId());
+            return true;
+        }
 
+        if (target.equals(p)) {
+            p.sendMessage(MessageManager.getMessage("command.trade.needOtherPlayer"));
+            return true;
+        }
 
-        return false;
+        plugin.getRequestManager().newRequest(
+                p.getUniqueId(),
+                p.getDisplayName(),
+                target.getUniqueId(),
+                target.getDisplayName()
+                );
+        return true;
     }
 }
