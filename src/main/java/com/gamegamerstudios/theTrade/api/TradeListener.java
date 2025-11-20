@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -22,7 +23,6 @@ public class TradeListener implements Listener {
     public void onTradeClick(InventoryClickEvent e) {
         if (!e.getView().getTitle().contains("You")) return;
         if (e.getClickedInventory() == null) return;
-        if (e.getClickedInventory().getType() == InventoryType.PLAYER) return;
         Player p = (Player) e.getWhoClicked();
 
         Trade trade = null;
@@ -34,14 +34,42 @@ public class TradeListener implements Listener {
         }
         if (trade == null) return;
 
-        if ((e.getRawSlot() % 9) >= 4) {
-            e.setCancelled(true);
+        if (e.getRawSlot() >= e.getView().getTopInventory().getSize()) {
+            if (e.isShiftClick()) {
+                e.setCancelled(true);
+            }
             return;
         }
-        if (e.getRawSlot() > e.getView().getTopInventory().getSize()) return;
-        if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
 
-        trade.updateItem(p, e.getCurrentItem(), e.getRawSlot());
+        e.setCancelled(true);
+        if ((e.getRawSlot() % 9) >= 4) {
+            return;
+        }
+
+        if (e.getCursor() != null && e.getCursor().getType() != Material.AIR) {
+            trade.updateItem(p, e.getCursor().clone(), e.getRawSlot());
+            e.setCursor(null);
+            return;
+        }
+
+        if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
+            ItemStack clone = e.getCurrentItem().clone();
+            trade.removeItem(p, e.getRawSlot());
+            e.setCursor(clone);
+            return;
+        }
+    }
+
+    @EventHandler
+    public void onTradeDrag(InventoryDragEvent e) {
+        if (!e.getView().getTitle().contains("You")) return;
+
+        for (int slot : e.getRawSlots()) {
+            if (slot < e.getView().getTopInventory().getSize()) {
+                e.setCancelled(true);
+                return;
+            }
+        }
     }
 
     @EventHandler
@@ -57,7 +85,7 @@ public class TradeListener implements Listener {
             }
         }
         if (trade == null) return;
-        tradeManager.cancelTrade(p, trade.getPlayer2());
+        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p, trade.getPlayer2());
     }
 
     @EventHandler
@@ -71,6 +99,6 @@ public class TradeListener implements Listener {
             }
         }
         if (trade == null) return;
-        tradeManager.cancelTrade(p, trade.getPlayer2());
+        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p, trade.getPlayer2());
     }
 }

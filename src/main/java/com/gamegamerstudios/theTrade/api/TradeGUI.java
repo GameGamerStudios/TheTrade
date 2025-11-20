@@ -37,6 +37,9 @@ public class TradeGUI {
     }
 
     public void updateItems() {
+        inv.clear();
+        fillColum();
+
         for (Map.Entry<Integer, ItemStack> e : trade.getItems().get(player.getUniqueId()).entrySet()) {
             inv.setItem(e.getKey(), e.getValue());
         }

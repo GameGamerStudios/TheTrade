@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class TradeManager {
     private final Plugin plugin;
-    private List<Trade> activeTrades = new ArrayList<>();
+    private final List<Trade> activeTrades = new ArrayList<>();
     public TradeManager(Plugin plugin) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(new TradeListener(this), plugin);
@@ -24,26 +24,30 @@ public class TradeManager {
         activeTrades.add(new Trade(player1, player2));
     }
     public void cancelTrade(Player canceller, Player player2) {
-        for (Trade trade : activeTrades) {
-            List<UUID> tPlayers = new ArrayList<>();
-            tPlayers.add(trade.getPlayer1().getUniqueId());
-            tPlayers.add(trade.getPlayer2().getUniqueId());
+        Iterator<Trade> iterator = activeTrades.iterator();
+        Trade trade = null;
 
-            if (!tPlayers.contains(canceller.getUniqueId()) || !tPlayers.contains(player2.getUniqueId())) continue;
-
-            if (canceller.isOnline()) { // trade may be canceled if they leave
-                canceller.sendMessage(MessageManager.getMessage("trade.cancelPlayer"));
+        while (iterator.hasNext()) {
+            trade = iterator.next();
+            boolean match =
+                    trade.getPlayer1().getUniqueId().equals(canceller.getUniqueId()) &&
+                            trade.getPlayer2().getUniqueId().equals(player2.getUniqueId()) ||
+                            trade.getPlayer2().getUniqueId().equals(canceller.getUniqueId()) &&
+                                    trade.getPlayer1().getUniqueId().equals(player2.getUniqueId());
+            if (match) {
+                iterator.remove();
+                break;
             }
+        }
+        if (trade == null) return;
 
-            player2.sendMessage(MessageManager.getMessage("trade.canceledOther"));
+        if (canceller.isOnline()) { // trade may be canceled if they leave
+            canceller.sendMessage(MessageManager.getMessage("trade.cancelPlayer"));
         }
 
-        Iterator<Trade> iterator = activeTrades.iterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getPlayer1().getUniqueId().equals(canceller.getUniqueId())
-                    && iterator.next().getPlayer2().getUniqueId().equals(player2.getUniqueId())) {
-                iterator.remove();
-            }
+        if (player2.isOnline()) {
+            player2.sendMessage(MessageManager.getMessage("trade.canceledOther")
+                    .replace("%player%", canceller.getDisplayName()));
         }
 
         if (canceller.isOnline()) canceller.closeInventory();

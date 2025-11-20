@@ -31,6 +31,12 @@ public class Trade {
         player2Inv.updateItems();
     }
 
+    public void removeItem(Player owner, int slot) {
+        items.get(owner.getUniqueId()).remove(slot);
+        player1Inv.updateItems();
+        player2Inv.updateItems();
+    }
+
     public Player getPlayer1() { return player1; }
     public Player getPlayer2() { return player2; }
     public HashMap<UUID, HashMap<Integer, ItemStack>> getItems() { return items; }
