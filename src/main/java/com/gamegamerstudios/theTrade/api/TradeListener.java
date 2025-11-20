@@ -3,6 +3,7 @@ package com.gamegamerstudios.theTrade.api;
 import com.gamegamerstudios.theTrade.Plugin;
 import com.gamegamerstudios.theTrade.manager.TradeManager;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,8 +48,37 @@ public class TradeListener implements Listener {
         }
 
         if (e.getCursor() != null && e.getCursor().getType() != Material.AIR) {
-            trade.updateItem(p, e.getCursor().clone(), e.getRawSlot());
-            e.setCursor(null);
+            if (e.getCurrentItem() == null) {
+                trade.updateItem(p, e.getCursor().clone(), e.getRawSlot());
+                e.setCursor(null);
+            }
+
+            // swap items
+            ItemStack invItem = e.getCurrentItem().clone();
+            if (!invItem.isSimilar(e.getCursor().clone())) {
+                trade.updateItem(p, e.getCursor().clone(), e.getRawSlot());
+                e.setCursor(invItem);
+                return;
+            }
+
+            // ADD ITEMS IF AMOUNT ALLOWS
+            int total = invItem.getAmount() + e.getCursor().clone().getAmount();
+            if (total <= invItem.getMaxStackSize()) {
+                ItemStack toUpdate = invItem.clone();
+                toUpdate.setAmount(invItem.getAmount() + e.getCursor().getAmount());
+                trade.updateItem(p, toUpdate, e.getRawSlot());
+                e.setCursor(null);
+                return;
+            }
+
+            //IF AMOUNT DOES NOT ALLOW, THEN GIVE REMAINDER TO PLAYER
+            ItemStack toUpdate = invItem.clone();
+            ItemStack cursor = e.getCursor().clone();
+            toUpdate.setAmount(toUpdate.getMaxStackSize());
+            cursor.setAmount(total - toUpdate.getMaxStackSize());
+            trade.updateItem(p, toUpdate, e.getRawSlot());
+            e.setCursor(cursor);
+
             return;
         }
 
@@ -85,7 +115,7 @@ public class TradeListener implements Listener {
             }
         }
         if (trade == null) return;
-        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p, trade.getPlayer2());
+        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p);
     }
 
     @EventHandler
@@ -99,6 +129,6 @@ public class TradeListener implements Listener {
             }
         }
         if (trade == null) return;
-        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p, trade.getPlayer2());
+        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p);
     }
 }

@@ -5,9 +5,13 @@ import com.gamegamerstudios.theTrade.api.TradeRequest;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.xml.XmlEscapers;
+import jdk.incubator.vector.ShortVector;
+import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.awt.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +43,22 @@ public class RequestManager {
                     .replace("%time%", REQUEST_DURATION + ""));
         }
 
-        player.sendMessage(MessageManager.getMessage("trade.newRequest").replace("%player%", requesterDisplay));
+        BaseComponent[] components = TextComponent.fromLegacyText(
+                MessageManager.getMessage("trade.newRequest").replace("%player%", requesterDisplay)
+        );
+
+        BaseComponent[] hoverText = new ComponentBuilder(
+                new ComponentBuilder(MessageManager.getMessage("trade.acceptCommandHoverMsg")
+                        .replace("%player%", requesterDisplay))
+        ).create();
+        ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/trade " + requesterDisplay);
+        HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText);
+        for (BaseComponent b : components) {
+            b.setClickEvent(click);
+            b.setHoverEvent(hover);
+        }
+
+        player.spigot().sendMessage(components);
     }
 
     public void cancelRequest(UUID requester) {

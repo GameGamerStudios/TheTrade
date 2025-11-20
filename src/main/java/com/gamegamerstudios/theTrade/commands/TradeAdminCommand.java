@@ -19,26 +19,20 @@ public class TradeAdminCommand implements CommandExecutor, TabCompleter {
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(MessageManager.getMessage("general.notPlayer"));
-            return true;
-        }
-        Player p = (Player) sender;
-
         if (args.length < 1) {
-            p.sendMessage(MessageManager.getMessage("command.admin.usage"));
+            sender.sendMessage(MessageManager.getMessage("command.admin.usage"));
             return true;
         }
 
         switch (args[0].toUpperCase()) {
             case "ACTIVETRADES":
 
-                p.sendMessage(MessageManager.getMessage("command.admin.activetrades.title")
+                sender.sendMessage(MessageManager.getMessage("command.admin.activetrades.title")
                         .replace("%amount%", plugin.getTradeManager().getActiveTrades().size() + ""));
 
                 int id = 1;
                 for (Trade trade : plugin.getTradeManager().getActiveTrades()) {
-                    p.sendMessage(MessageManager.getMessage("command.admin.activetrades.format")
+                    sender.sendMessage(MessageManager.getMessage("command.admin.activetrades.format")
                             .replace("%id%", id + "")
                             .replace("%player1%", trade.getPlayer1().getDisplayName())
                             .replace("%player2%", trade.getPlayer2().getDisplayName()));

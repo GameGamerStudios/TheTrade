@@ -23,35 +23,38 @@ public class TradeManager {
     public void newTrade(Player player1, Player player2) {
         activeTrades.add(new Trade(player1, player2));
     }
-    public void cancelTrade(Player canceller, Player player2) {
-        Iterator<Trade> iterator = activeTrades.iterator();
-        Trade trade = null;
-
-        while (iterator.hasNext()) {
-            trade = iterator.next();
-            boolean match =
-                    trade.getPlayer1().getUniqueId().equals(canceller.getUniqueId()) &&
-                            trade.getPlayer2().getUniqueId().equals(player2.getUniqueId()) ||
-                            trade.getPlayer2().getUniqueId().equals(canceller.getUniqueId()) &&
-                                    trade.getPlayer1().getUniqueId().equals(player2.getUniqueId());
-            if (match) {
-                iterator.remove();
-                break;
-            }
-        }
+    public void cancelTrade(Player canceller) {
+        Trade trade = getTrade(canceller);
         if (trade == null) return;
 
-        if (canceller.isOnline()) { // trade may be canceled if they leave
+        Player other = trade.getPlayer1().equals(canceller)
+                ? trade.getPlayer2()
+                : trade.getPlayer1();
+
+        activeTrades.remove(trade); // remove BEFORE closing inventories
+
+        if (canceller.isOnline()) {
             canceller.sendMessage(MessageManager.getMessage("trade.cancelPlayer"));
         }
 
-        if (player2.isOnline()) {
-            player2.sendMessage(MessageManager.getMessage("trade.canceledOther")
-                    .replace("%player%", canceller.getDisplayName()));
+        if (other.isOnline()) {
+            other.sendMessage(
+                    MessageManager.getMessage("trade.canceledOther")
+                            .replace("%player%", canceller.getDisplayName())
+            );
         }
 
         if (canceller.isOnline()) canceller.closeInventory();
-        if (player2.isOnline()) player2.closeInventory();
+        if (other.isOnline()) other.closeInventory();
+    }
+
+    public Trade getTrade(Player player) {
+        for (Trade trade : activeTrades) {
+            if (trade.getPlayer1().equals(player) || trade.getPlayer2().equals(player)) {
+                return trade;
+            }
+        }
+        return null;
     }
 
     public boolean isTrading(Player player) {

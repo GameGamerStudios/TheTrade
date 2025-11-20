@@ -1,5 +1,5 @@
-prefix: '&8[&6&lT&e&lrade&8]&r '
-logprefix: '[TheTrade] '
+prefix: '&8[&6&lT&e&lrade&8]&r'
+logprefix: '[TheTrade]'
 general:
   notPlayer: '%log_prefix% Only players can do this!'
   notOnline: '%prefix% &cThat player is not online!'
@@ -14,6 +14,7 @@ command:
       format: '&7%id%. &e%player1% &7- &e%player2%'
 trade:
   newRequest: '%prefix% &eYou have a trade request from &a%player%. &a&lClick To Accept &7(/trade <requester_name>)'
+  acceptCommandHoverMsg: '&e/trade %player%'
   sent: '%prefix% &eYou sent a trade request to &a%player%. &eThey have &a%time%s &eto accept.'
   sentExpired: '%prefix% &eYour trade request to &a%player% &eexpired.'
   receivedExpired: '%prefix% &eYour trade request from &a%player% &eexpired.'
