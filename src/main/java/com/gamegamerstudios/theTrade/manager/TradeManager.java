@@ -33,11 +33,9 @@ public class TradeManager {
 
             if (canceller.isOnline()) { // trade may be canceled if they leave
                 canceller.sendMessage(MessageManager.getMessage("trade.cancelPlayer"));
-                canceller.closeInventory();
             }
 
             player2.sendMessage(MessageManager.getMessage("trade.canceledOther"));
-            player2.closeInventory();
         }
 
         Iterator<Trade> iterator = activeTrades.iterator();
@@ -47,6 +45,9 @@ public class TradeManager {
                 iterator.remove();
             }
         }
+
+        if (canceller.isOnline()) canceller.closeInventory();
+        if (player2.isOnline()) player2.closeInventory();
     }
 
     public boolean isTrading(Player player) {
