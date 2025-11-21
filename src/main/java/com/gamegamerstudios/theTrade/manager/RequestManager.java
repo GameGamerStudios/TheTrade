@@ -41,11 +41,11 @@ public class RequestManager {
 
         if (plugin.getConfig().getBoolean("tradeRadiusToggle") &&
                 !Utils.withinRadius(player.getLocation(), requesterPlayer.getLocation(),
-                        plugin.getConfig().getDouble("tradeRadiusAmount", 80))) {
+                        plugin.getConfig().getDouble("tradeRadiusAmount", 100))) {
             if (!requesterPlayer.hasPermission("thetrade.bypassradius")) {
                 requesterPlayer.sendMessage(MessageManager.getMessage("trade.notWithinRadius")
                         .replace("%player%", requestedDisplay)
-                        .replace("%radius%", Utils.formatDouble(plugin.getConfig().getDouble("tradeRadiusAmount", 80))));
+                        .replace("%radius%", Utils.formatDouble(plugin.getConfig().getDouble("tradeRadiusAmount", 100))));
                 return;
             }
         }
@@ -155,7 +155,7 @@ public class RequestManager {
 
         if (plugin.getConfig().getBoolean("tradeRadiusToggle") &&
                 !Utils.withinRadius(requestedPlayer.getLocation(), requesterPlayer.getLocation(),
-                        plugin.getConfig().getDouble("tradeRadiusAmount", 80))) {
+                        plugin.getConfig().getDouble("tradeRadiusAmount", 100))) {
             if (!requesterPlayer.hasPermission("thetrade.bypassradius") && !requestedPlayer.hasPermission("thetrade.bypassradius")) {
                 requestedPlayer.sendMessage(MessageManager.getMessage("trade.notWithinRadius")
                         .replace("%player%", requesterPlayer.getDisplayName())

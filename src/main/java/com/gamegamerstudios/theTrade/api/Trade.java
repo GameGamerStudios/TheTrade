@@ -1,11 +1,13 @@
 package com.gamegamerstudios.theTrade.api;
 
 import com.gamegamerstudios.theTrade.Plugin;
+import com.gamegamerstudios.theTrade.manager.MessageManager;
 import com.gamegamerstudios.theTrade.util.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,19 +49,51 @@ public class Trade {
         player2.closeInventory();
 
         if (plugin.getEconomyManager().getIsEnabled()) {
-            plugin.getEconomyManager().getEconomy().depositPlayer(player1, player2Deposit);
-            plugin.getEconomyManager().getEconomy().depositPlayer(player2, player1Despoit);
             plugin.getEconomyManager().getEconomy().withdrawPlayer(player1, player1Despoit);
             plugin.getEconomyManager().getEconomy().withdrawPlayer(player2, player2Deposit);
+            plugin.getEconomyManager().getEconomy().depositPlayer(player1, player2Deposit);
+            plugin.getEconomyManager().getEconomy().depositPlayer(player2, player1Despoit);
         }
 
+        player1.sendMessage(MessageManager.getMessage("trade.complete"));
+        player2.sendMessage(MessageManager.getMessage("trade.complete"));
         for (ItemStack item : items.get(player2.getUniqueId()).values()) {
             Utils.giveItem(player1, item);
+            String itemDisplay = (item.getItemMeta() != null && item.hasItemMeta() ? item.getItemMeta().getDisplayName()
+                    : Utils.getVanillaName(item));
+            player1.sendMessage(MessageManager.getMessage("trade.summaryPositive")
+                    .replace("%item%", itemDisplay)
+                    .replace("%amount%", item.getAmount() + ""));
+            player2.sendMessage(MessageManager.getMessage("trade.summaryNegative")
+                    .replace("%item%", itemDisplay)
+                    .replace("%amount%", item.getAmount() + ""));
         }
 
         for (ItemStack item : items.get(player1.getUniqueId()).values()) {
             Utils.giveItem(player2, item);
+            String itemDisplay = (item.getItemMeta() != null && item.hasItemMeta() ? item.getItemMeta().getDisplayName()
+                    : Utils.getVanillaName(item));
+            player2.sendMessage(MessageManager.getMessage("trade.summaryPositive")
+                    .replace("%item%", itemDisplay)
+                    .replace("%amount%", item.getAmount() + ""));
+            player1.sendMessage(MessageManager.getMessage("trade.summaryNegative")
+                    .replace("%item%", itemDisplay)
+                    .replace("%amount%", item.getAmount() + ""));
         }
+
+        if (player1Despoit > 0) {
+            player1.sendMessage(MessageManager.getMessage("trade.summaryNegativeMoney")
+                    .replace("%amount%", player1Despoit + ""));
+            player2.sendMessage(MessageManager.getMessage("trade.summaryPositiveMoney")
+                    .replace("%amount%", player1Despoit + ""));
+        }
+        if (player2Deposit > 0) {
+            player2.sendMessage(MessageManager.getMessage("trade.summaryNegativeMoney")
+                    .replace("%amount%", player2Deposit + ""));
+            player1.sendMessage(MessageManager.getMessage("trade.summaryPositiveMoney")
+                    .replace("%amount%", player2Deposit + ""));
+        }
+
 
         cancelCountdown();
         player1.closeInventory();
@@ -107,7 +141,7 @@ public class Trade {
     }
 
     public void cancelCountdown() {
-        if (this.tradeCompleteTimer != null) tradeCompleteTimer.end();
+        if (this.tradeCompleteTimer != null && this.tradeCompleteTimer.isRunning()) tradeCompleteTimer.end();
         this.tradeCompleteTimer = null;
     }
 

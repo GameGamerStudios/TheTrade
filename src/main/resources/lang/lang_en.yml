@@ -5,7 +5,7 @@ general:
   notOnline: '%prefix% &cThat player is not online!'
   fileError: '%log_prefix% Unable to create file "%file%"!'
   fileSaveError: '%log_prefix% Unable to save file "%file%"!'
-  noVault: '%log_prefix% Vault was not found! Trading money WILL BE DISABLED.'
+  noVault: '%log_prefix% Vault AND an Economy Plugin was not found! Trading money WILL BE DISABLED.'
   unsupportedVersion: '%log_prefix% This version is not supported because one of the APIs we use does not support it! Trading currency WILL NOT WORK.'
 command:
   trade:
@@ -31,6 +31,13 @@ trade:
   canceledOther: '%prefix% &a%player% &ccanceled the trade.'
   invalidMoneyInput: '%prefix% &cThat is not a valid amount!'
   notWithinRadius: '%prefix% &a%player% &cis too far away to trade! &7(Must be within %radius% blocks)'
+  blacklistedItem: '%prefix% &cYou cannot trade that.'
+  noMoney: '%prefix% &cYou cannot deposit more than you have!'
+  complete: '%prefix% &eTrade Complete! Summary: '
+  summaryPositive: '&7[&a+&7]&a %item% &7- &e%amount%x'
+  summaryNegative: '&7[&c-&7]&c %item% &7- &e%amount%x'
+  summaryPositiveMoney: '&7[&a+&7]&a $%amount%'
+  summaryNegativeMoney: '&7[&c-&7]&c $%amount%'
 gui:
   you: 'You'
   otherPlayer: '%player%'

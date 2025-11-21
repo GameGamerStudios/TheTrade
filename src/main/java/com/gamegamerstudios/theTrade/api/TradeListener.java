@@ -90,6 +90,18 @@ public class TradeListener implements Listener {
                                     );
                                 }
 
+                                if (amount > plugin.getEconomyManager().getEconomy().getBalance(p)) {
+                                    p.sendMessage(MessageManager.getMessage("trade.noMoney"));
+                                    return Arrays.asList(
+                                            SignGUIAction.openInventory(plugin, trade.getInventory(p)),
+                                            SignGUIAction.run(() ->
+                                                    Bukkit.getScheduler().runTask(
+                                                            plugin,
+                                                            () -> inputting.remove(p.getUniqueId()
+                                                            )))
+                                    );
+                                }
+
                                 trade.setDeposit(p, amount);
                                 return Arrays.asList(
                                         SignGUIAction.openInventory(plugin, trade.getInventory(p)),
@@ -103,7 +115,7 @@ public class TradeListener implements Listener {
                     gui.open(p);
                     return;
                 } catch (SignGUIVersionException ex) {
-                    Bukkit.getLogger().severe(MessageManager.getMessage("unsupportedVersion"));
+                    Bukkit.getLogger().severe(MessageManager.getMessage("general.unsupportedVersion"));
                     return;
                 }
             }
@@ -120,13 +132,18 @@ public class TradeListener implements Listener {
         }
 
         if (e.getCursor() != null && e.getCursor().getType() != Material.AIR) {
-            if (e.getCurrentItem() == null) {
-                for (String str : plugin.getConfig().getStringList("blacklistItems")) {
-                    Material material = Material.matchMaterial(str);
-                    if (material == null) { continue; }
-
-                    if (material == e.getCursor().getType()) return;
+            for (String str : plugin.getConfig().getStringList("blacklistItems")) {
+                Material material = Material.matchMaterial(str);
+                if (material == null) { continue; }
+                Material currentType = (e.getCurrentItem() == null ? Material.AIR : e.getCurrentItem().getType());
+                if (material == e.getCursor().getType() || material == currentType) {
+                    p.sendMessage(MessageManager.getMessage("trade.blacklistedItem"));
+                    e.setCancelled(true);
+                    return;
                 }
+            }
+
+            if (e.getCurrentItem() == null) {
                 trade.updateItem(p, e.getCursor().clone(), e.getRawSlot());
                 e.setCursor(null);
                 return;

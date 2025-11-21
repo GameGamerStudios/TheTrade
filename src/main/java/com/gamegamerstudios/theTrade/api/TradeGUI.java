@@ -50,7 +50,7 @@ public class TradeGUI {
         }
 
 
-        if (trade.getTradeTimer() == null || !trade.getTradeTimer().isCountdown()) {
+        if (trade.getTradeTimer() == null || !trade.getTradeTimer().isRunning()) {
             if (trade.getReadyToComplete().contains(player.getUniqueId())) {
                 inv.setItem(45, getClickedItem());
             } else {

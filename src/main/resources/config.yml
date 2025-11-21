@@ -26,14 +26,19 @@ tradeRadiusToggle: true
 #If enabled, what should the radius be? (e.g. 40 is a 40 block radius).
 #Note, the Y radius is not affected. E.g. radius is 40, but the players are at Y = 100 and Y = 0,
 #as long as their X and Z values are withing each other, they can still trade.
-#Default 80
-tradeRadiusAmount: 80
+#Default 100
+tradeRadiusAmount: 100
 
-#Items in this list will be blocked from trades.
+#Items in this list will be blocked from trades. Note, COMMAND is just the name for COMMAND_BLOCK in older versions. :)
+#Only material names will work.
 blacklistItems:
   - BARRIER
+  - LIGHT
   - DEBUG_STICK
   - COMMAND_BLOCK
+  - COMMAND
+  - COMMAND_CHAIN
+  - COMMAND_REPEATING
 
 #DO NOT CHANGE THIS! IT WILL BREAK THIS PLUGIN!
 fileVersion: 0

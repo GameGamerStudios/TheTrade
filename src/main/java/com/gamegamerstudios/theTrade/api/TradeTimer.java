@@ -16,7 +16,7 @@ public class TradeTimer extends BukkitRunnable {
         timeLeft = COUNTDOWN_SECONDS;
     }
 
-    public boolean isCountdown() { return countdownBool; }
+    public boolean isRunning() { return countdownBool; }
     public int getTimeLeft() { return timeLeft; }
 
     public void start() {

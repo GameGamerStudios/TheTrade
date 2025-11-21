@@ -106,4 +106,21 @@ public class Utils {
         }
         return String.valueOf(value);
     }
+
+    public static String getVanillaName(ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) return "Air";
+
+        String name = item.getType().name().toLowerCase().replace("_", " ");
+
+        String[] words = name.split(" ");
+        StringBuilder builder = new StringBuilder();
+
+        for (String word : words) {
+            builder.append(word.substring(0, 1).toUpperCase())
+                    .append(word.substring(1))
+                    .append(" ");
+        }
+
+        return builder.toString().trim();
+    }
 }

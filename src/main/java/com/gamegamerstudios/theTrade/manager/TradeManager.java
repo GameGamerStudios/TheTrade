@@ -42,7 +42,6 @@ public class TradeManager {
         }
 
 
-
         activeTrades.remove(trade);
 
         if (canceller.isOnline()) {

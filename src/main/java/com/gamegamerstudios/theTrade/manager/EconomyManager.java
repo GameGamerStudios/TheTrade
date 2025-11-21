@@ -7,10 +7,14 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class EconomyManager {
     private final Plugin plugin;
+    private boolean isEnabled = false;
     private Economy economy;
-    private boolean isEnabled;
     public EconomyManager(Plugin plugin) {
         this.plugin = plugin;
+        init();
+    }
+
+    private void init() {
         if (!setupEconomy()) {
             isEnabled = false;
             Bukkit.getLogger().severe(MessageManager.getMessage("general.noVault"));

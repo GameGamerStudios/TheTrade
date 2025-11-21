@@ -4,7 +4,7 @@ main: com.gamegamerstudios.theTrade.Plugin
 api-version: '1.8'
 authors: [ GameGamerStudios ]
 description: The best item-trading solution.
-depend: [Vault]
+softdepend: [Vault]
 commands:
   trade:
     usage: /trade <player>
