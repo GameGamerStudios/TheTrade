@@ -1,5 +1,5 @@
 name: TheTrade
-version: '1.0'
+version: '1.0-PRE'
 main: com.gamegamerstudios.theTrade.Plugin
 api-version: '1.8'
 authors: [ GameGamerStudios ]

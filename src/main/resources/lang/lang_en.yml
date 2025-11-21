@@ -15,7 +15,7 @@ command:
       title: '%prefix% &eActive trades: &7(%amount%)'
       format: '&7%id%. &e%player1% &7- &e%player2%'
 trade:
-  newRequest: '%prefix% &eYou have a trade request from &a%player%. &a&lClick To Accept &7(/trade <requester_name>)'
+  newRequest: '%prefix% &eYou have a trade request from &a%player%. &a&lClick To Accept'
   acceptCommandHoverMsg: '&e/trade %player%'
   sent: '%prefix% &eYou sent a trade request to &a%player%. &eThey have &a%time%s &eto accept.'
   sentExpired: '%prefix% &eYour trade request to &a%player% &eexpired.'
@@ -27,6 +27,7 @@ trade:
   cancelPlayer: '%prefix% &cYou canceled the trade.'
   canceledOther: '%prefix% &a%player% &ccanceled the trade.'
   invalidMoneyInput: '%prefix% &cThat is not a valid amount!'
+  notWithinRadius: '%prefix% &a%player% &cis too far away to trade! &7(Must be within %radius% blocks)'
 gui:
   you: 'You'
   otherPlayer: '%player%'

@@ -2,10 +2,9 @@ package com.gamegamerstudios.theTrade.manager;
 
 import com.gamegamerstudios.theTrade.Plugin;
 import com.gamegamerstudios.theTrade.api.TradeRequest;
+import com.gamegamerstudios.theTrade.util.Utils;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.xml.XmlEscapers;
-import jdk.incubator.vector.ShortVector;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -28,8 +27,6 @@ public class RequestManager {
     }
 
     public void newRequest(UUID requester, String requesterDisplay, UUID requested, String requestedDisplay) {
-        requests.put(new TradeRequest(requester, requesterDisplay, requested, requestedDisplay, plugin), REQUEST_DURATION * 1000L);
-
         Player player = Bukkit.getPlayer(requested);
         if (player == null || !player.isOnline()) {
             denyRequest(requested);
@@ -37,6 +34,17 @@ public class RequestManager {
         }
 
         Player requesterPlayer = Bukkit.getPlayer(requester);
+
+        if (plugin.getConfig().getBoolean("tradeRadiusToggle") && !Utils.withinRadius(player.getLocation(), requesterPlayer.getLocation(),
+                plugin.getConfig().getDouble("tradeRadiusAmount", 80))) {
+            requesterPlayer.sendMessage(MessageManager.getMessage("trade.notWithinRadius")
+                    .replace("%player%", requestedDisplay)
+                    .replace("%radius%", plugin.getConfig().getDouble("tradeRadiusAmount", 40) + ""));
+            return;
+        }
+
+        requests.put(new TradeRequest(requester, requesterDisplay, requested, requestedDisplay, plugin), REQUEST_DURATION * 1000L);
+
         if (requesterPlayer != null && requesterPlayer.isOnline()) {
             requesterPlayer.sendMessage(MessageManager.getMessage("trade.sent")
                     .replace("%player%", requestedDisplay)
@@ -147,6 +155,16 @@ public class RequestManager {
         }
 
         cancelRequests(requester);
+
+        if (plugin.getConfig().getBoolean("tradeRadiusToggle") &&
+                !Utils.withinRadius(requesterPlayer.getLocation(), requestedPlayer.getLocation(),
+                        plugin.getConfig().getDouble("tradeRadiusAmount", 80))) {
+            requestedPlayer.sendMessage(MessageManager.getMessage("trade.notWithinRadius")
+                    .replace("%player%", requesterPlayer.getDisplayName())
+                    .replace("%radius%", plugin.getConfig().getDouble("tradeRadiusAmount", 40) + ""));
+            return;
+        }
+
         for (TradeRequest r : requests.asMap().keySet()) {
             if (r.getRequestedUUID().equals(requested)) {
                 denyRequest(r.getRequesterUUID(), r.getRequestedUUID());

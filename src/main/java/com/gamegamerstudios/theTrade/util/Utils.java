@@ -1,5 +1,6 @@
 package com.gamegamerstudios.theTrade.util;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +39,6 @@ public class Utils {
         return base * multiplier;
     }
 
-    // Optional: format numbers back into k/m/b/t form
     public static String format(double value) {
         if (value >= 1_000_000_000_000L)
             return String.format("%.2ft", value / 1_000_000_000_000L);
@@ -62,5 +62,12 @@ public class Utils {
             }
         }
         return openSlots;
+    }
+
+    public static boolean withinRadius(Location loc1, Location loc2, double radius) {
+        double dx = loc1.getX() - loc2.getZ();
+        double dz = loc2.getZ() - loc2.getZ();
+
+        return (dx * dx + dz * dz) <= radius * radius;
     }
 }
