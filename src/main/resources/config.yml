@@ -5,5 +5,14 @@ language: 'lang_en'
 #Default: 30
 requestDuration: 30
 
+#The amount of time (in seconds) to wait before completing the trade AFTER both players have clicked 'ready'.
+#Default: 3
+completeTimer: 3
+
+#Should we allow an option to trade money (currency)?
+#If this is false, the currency button will be hidden.
+#Default: true
+tradeInGameMoney: true
+
 #DO NOT CHANGE THIS! IT WILL BREAK THIS PLUGIN!
 fileVersion: 0

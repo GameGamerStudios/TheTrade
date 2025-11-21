@@ -32,6 +32,7 @@ public final class Plugin extends JavaPlugin {
     @Override
     public void onDisable() {
         requestManager.shutdown();
+        tradeManager.shutdown();
     }
 
     public RequestManager getRequestManager() { return requestManager; }

@@ -3,6 +3,7 @@ logprefix: '[TheTrade]'
 general:
   notPlayer: '%log_prefix% Only players can do this!'
   notOnline: '%prefix% &cThat player is not online!'
+  unsupportedVersion: '%log_prefix% This version is not supported because one of the APIs we use does not support it! Trading currency WILL NOT WORK.'
 command:
   trade:
     usage: '%prefix% &cInvalid usage! /trade <player>'
@@ -24,9 +25,40 @@ trade:
   playerRequestCancel: '%prefix% &a%player% &ccanceled their trade request!'
   cancelPlayer: '%prefix% &cYou canceled the trade.'
   canceledOther: '%prefix% &a%player% &ccanceled the trade.'
+  invalidMoneyInput: '%prefix% &cThat is not a valid amount!'
 gui:
   you: 'You'
   otherPlayer: '%player%'
+  moneyitem:
+    name: '&fAdd Money'
+    lore:
+      - ' '
+      - '&eCurrent Value: &a$%amount%'
+      - '&aClick To Set'
+  othermoneyitem:
+    name: "&f%player%'s Deposit"
+    lore:
+      - ' '
+      - '&eCurrent Value: &a$%amount%'
+      - ' '
+      - '&7You will get this amount '
+      - '&7once the trade is complete.'
+  readyItem:
+    name: '&bReady'
+    lore:
+      - ' '
+      - '&eClick to complete trade'
+  confirmedItem:
+    name: '&dConfirmed'
+    lore:
+      - ' '
+      - '&7Waiting for %player% to confirm.'
+      - '&cClick to Cancel'
+  timerItem:
+    name: '&eCompleting in %time%s'
+    lore:
+      - ' '
+      - '&cClick to Cancel'
 
 #DO NOT CHANGE THIS! IT WILL BREAK THIS PLUGIN!
 fileVersion: 0

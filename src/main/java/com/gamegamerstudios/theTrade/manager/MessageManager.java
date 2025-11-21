@@ -101,8 +101,10 @@ public class MessageManager {
     public static String getPrefix() { return config.getString(ChatColor.translateAlternateColorCodes('&', "prefix")); }
     public static String getLogPrefix() { return config.getString(ChatColor.translateAlternateColorCodes('&', "logprefix")); }
 
-    public static String colorize(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
+    public static String translate(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string
+                .replace("%prefix%", getPrefix())
+                .replace("%log_prefix%", getLogPrefix()));
     }
 
     public static boolean getConfig() { return config != null; }
