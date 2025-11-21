@@ -11,6 +11,8 @@ completeTimer: 3
 
 #Should we allow an option to trade money (currency)?
 #If this is false, the currency button will be hidden.
+#We currently hook into Vault, which supports (most) economy plugins.
+#Vault MUST BE installed for this option.
 #Default: true
 tradeInGameMoney: true
 
