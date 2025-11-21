@@ -2,24 +2,23 @@ package com.gamegamerstudios.theTrade;
 
 import com.gamegamerstudios.theTrade.commands.TradeAdminCommand;
 import com.gamegamerstudios.theTrade.commands.TradeCommand;
-import com.gamegamerstudios.theTrade.manager.ConfigManager;
-import com.gamegamerstudios.theTrade.manager.MessageManager;
-import com.gamegamerstudios.theTrade.manager.RequestManager;
-import com.gamegamerstudios.theTrade.manager.TradeManager;
+import com.gamegamerstudios.theTrade.manager.*;
+import com.gamegamerstudios.theTrade.util.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Plugin extends JavaPlugin {
     private RequestManager requestManager;
     private TradeManager tradeManager;
+    private EconomyManager economyManager;
     @Override
     public void onEnable() {
         ConfigManager.setupConfig(this);
         MessageManager.initMessageManager(this);
-
         this.requestManager = new RequestManager(this);
         this.tradeManager = new TradeManager(this);
-
+        this.economyManager = new EconomyManager(this);
         registerCommands();
+        setupMetrics();
     }
 
     private void registerCommands() {
@@ -27,6 +26,11 @@ public final class Plugin extends JavaPlugin {
         TradeAdminCommand adminCommand = new TradeAdminCommand(this);
         getServer().getPluginCommand("tradeadmin").setExecutor(adminCommand);
         getServer().getPluginCommand("tradeadmin").setTabCompleter(adminCommand);
+    }
+
+    private void setupMetrics() {
+        int pluginId = 28075;
+        Metrics metrics = new Metrics(this, pluginId);
     }
 
     @Override
@@ -37,4 +41,5 @@ public final class Plugin extends JavaPlugin {
 
     public RequestManager getRequestManager() { return requestManager; }
     public TradeManager getTradeManager() { return tradeManager; }
+    public EconomyManager getEconomyManager() { return economyManager; }
 }

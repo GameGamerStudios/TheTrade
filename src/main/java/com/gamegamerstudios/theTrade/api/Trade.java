@@ -45,9 +45,16 @@ public class Trade {
 
     public void complete() {
         completing = true;
-        //todo: economy stuff
+
         player1.closeInventory();
         player2.closeInventory();
+
+        if (plugin.getEconomyManager().getIsEnabled()) {
+            plugin.getEconomyManager().getEconomy().depositPlayer(player1, player2Deposit);
+            plugin.getEconomyManager().getEconomy().depositPlayer(player2, player1Despoit);
+            plugin.getEconomyManager().getEconomy().withdrawPlayer(player1, player1Despoit);
+            plugin.getEconomyManager().getEconomy().withdrawPlayer(player2, player2Deposit);
+        }
 
         for (ItemStack item : items.get(player2.getUniqueId()).values()) {
             if (Utils.getOpenSlots(player1.getInventory()) <= 0) {

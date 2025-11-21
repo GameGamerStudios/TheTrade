@@ -52,18 +52,45 @@ public class TradeListener implements Listener {
             return;
         }
 
-        if (plugin.getConfig().getBoolean("tradeInGameMoney") && e.getRawSlot() == 48) {
-            inputting.add(p.getUniqueId());
+        if (plugin.getEconomyManager().getIsEnabled()) {
+            if (plugin.getConfig().getBoolean("tradeInGameMoney") && e.getRawSlot() == 48) {
+                inputting.add(p.getUniqueId());
 
-            try {
-                SignGUI gui = SignGUI.builder()
-                        .setLine(1, "↑↑↑↑↑↑↑↑↑↑")
-                        .setLine(2, "INSERT NUMBER")
-                        .setLine(3, "ABOVE")
-                        .setHandler((pp, result) -> {
-                            String line0 = result.getLine(0);
+                try {
+                    SignGUI gui = SignGUI.builder()
+                            .setLine(1, "↑↑↑↑↑↑↑↑↑↑")
+                            .setLine(2, "INSERT NUMBER")
+                            .setLine(3, "ABOVE")
+                            .setHandler((pp, result) -> {
+                                String line0 = result.getLine(0);
 
-                            if (line0.isEmpty()) {
+                                if (line0.isEmpty()) {
+                                    return Arrays.asList(
+                                            SignGUIAction.openInventory(plugin, trade.getInventory(p)),
+                                            SignGUIAction.run(() ->
+                                                    Bukkit.getScheduler().runTask(
+                                                            plugin,
+                                                            () -> inputting.remove(p.getUniqueId()
+                                                            )))
+                                    );
+                                }
+
+                                double amount = 0;
+                                try {
+                                    amount = Utils.parseMoney(line0);
+                                } catch (NumberFormatException ex) {
+                                    p.sendMessage(MessageManager.getMessage("trade.invalidMoneyInput"));
+                                    return Arrays.asList(
+                                            SignGUIAction.openInventory(plugin, trade.getInventory(p)),
+                                            SignGUIAction.run(() ->
+                                                    Bukkit.getScheduler().runTask(
+                                                            plugin,
+                                                            () -> inputting.remove(p.getUniqueId()
+                                                            )))
+                                    );
+                                }
+
+                                trade.setDeposit(p, amount);
                                 return Arrays.asList(
                                         SignGUIAction.openInventory(plugin, trade.getInventory(p)),
                                         SignGUIAction.run(() ->
@@ -72,38 +99,13 @@ public class TradeListener implements Listener {
                                                         () -> inputting.remove(p.getUniqueId()
                                                         )))
                                 );
-                            }
-
-                            double amount = 0;
-                            try {
-                                amount = Utils.parseMoney(line0);
-                            } catch (NumberFormatException ex) {
-                                p.sendMessage(MessageManager.getMessage("trade.invalidMoneyInput"));
-                                return Arrays.asList(
-                                        SignGUIAction.openInventory(plugin, trade.getInventory(p)),
-                                        SignGUIAction.run(() ->
-                                                Bukkit.getScheduler().runTask(
-                                                plugin,
-                                                () -> inputting.remove(p.getUniqueId()
-                                                )))
-                                );
-                            }
-
-                            trade.setDeposit(p, amount);
-                            return Arrays.asList(
-                                    SignGUIAction.openInventory(plugin, trade.getInventory(p)),
-                                    SignGUIAction.run(() ->
-                                            Bukkit.getScheduler().runTask(
-                                                    plugin,
-                                                    () -> inputting.remove(p.getUniqueId()
-                                                    )))
-                            );
-                        }).build();
-                gui.open(p);
-                return;
-            } catch (SignGUIVersionException ex) {
-                Bukkit.getLogger().severe(MessageManager.getMessage("unsupportedVersion"));
-                return;
+                            }).build();
+                    gui.open(p);
+                    return;
+                } catch (SignGUIVersionException ex) {
+                    Bukkit.getLogger().severe(MessageManager.getMessage("unsupportedVersion"));
+                    return;
+                }
             }
         }
 

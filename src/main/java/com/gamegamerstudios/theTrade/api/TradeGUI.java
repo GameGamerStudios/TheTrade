@@ -42,9 +42,11 @@ public class TradeGUI {
             inv.setItem(i, filler);
         }
 
-        if (plugin.getConfig().getBoolean("tradeInGameMoney")) {
-            inv.setItem(48, getMoneyItem());
-            inv.setItem(50, getOtherPlayerMoneyItem());
+        if (plugin.getEconomyManager().getIsEnabled()) {
+            if (plugin.getConfig().getBoolean("tradeInGameMoney")) {
+                inv.setItem(48, getMoneyItem());
+                inv.setItem(50, getOtherPlayerMoneyItem());
+            }
         }
 
 
