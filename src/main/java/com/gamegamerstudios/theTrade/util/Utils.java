@@ -3,6 +3,7 @@ package com.gamegamerstudios.theTrade.util;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -68,10 +69,12 @@ public class Utils {
     }
 
     public static boolean withinRadius(Location loc1, Location loc2, double radius) {
-        double dx = loc1.getX() - loc2.getZ();
-        double dz = loc2.getZ() - loc2.getZ();
+        if (!loc1.getWorld().equals(loc2.getWorld())) return false;
 
-        return (dx * dx + dz * dz) <= radius * radius;
+        double dx = loc1.getX() - loc2.getX();
+        double dz = loc1.getZ() - loc2.getZ();
+
+        return ((dx * dx + dz * dz) <= radius * radius);
     }
 
     private static final DateTimeFormatter FORMATTER =
@@ -88,5 +91,19 @@ public class Utils {
                 loc.getYaw(),
                 loc.getPitch()
         );
+    }
+
+    public static void giveItem(Player player, ItemStack item) {
+        if (Utils.getOpenSlots(player.getInventory()) <= 0) {
+            player.getWorld().dropItemNaturally(player.getLocation(), item);
+        }
+        player.getInventory().addItem(item);
+    }
+
+    public static String formatDouble(double value) {
+        if (value == (long) value) {
+            return String.valueOf((long) value);
+        }
+        return String.valueOf(value);
     }
 }

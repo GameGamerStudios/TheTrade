@@ -64,16 +64,28 @@ public class DataManager {
         String key = "logs." + id;
         tradeLogs.set(key + ".date", Utils.formatDate(LocalDateTime.now()));
         tradeLogs.set(key + ".players.0.name", player1.getDisplayName());
-        tradeLogs.set(key + ".players.0.uuid", player1.getUniqueId());
+        tradeLogs.set(key + ".players.0.uuid", player1.getUniqueId().toString());
         tradeLogs.set(key + ".players.0.location", Utils.formatLocation(player1.getLocation()));
         tradeLogs.set(key + ".players.1.name", player2.getDisplayName());
-        tradeLogs.set(key + ".players.1.uuid", player2.getUniqueId());
+        tradeLogs.set(key + ".players.1.uuid", player2.getUniqueId().toString());
         tradeLogs.set(key + ".players.1.location", Utils.formatLocation(player2.getLocation()));
 
         int itemId = 0;
         String itemKey = key + ".items." + itemId;
         for (ItemStack i : items.get(player1.getUniqueId()).values()) {
-            tradeLogs.set(itemKey + ".tradedFrom", player1.getDisplayName() + " : " + player1.getUniqueId());
+            tradeLogs.set(itemKey + ".tradedFrom", player1.getDisplayName() + " : " + player1.getUniqueId().toString());
+            tradeLogs.set(itemKey + ".material", i.getType().name());
+            if (i.hasItemMeta() && i.getItemMeta() != null) {
+                tradeLogs.set(itemKey + ".name", i.getItemMeta().getDisplayName());
+                List<String> lore = new ArrayList<>(i.getItemMeta().getLore());
+                tradeLogs.set(itemKey + ".lore", lore);
+            }
+            tradeLogs.set(itemKey + ".amount", i.getAmount());
+            itemId++;
+        }
+
+        for (ItemStack i : items.get(player2.getUniqueId()).values()) {
+            tradeLogs.set(itemKey + ".tradedFrom", player2.getDisplayName() + " : " + player2.getUniqueId().toString());
             tradeLogs.set(itemKey + ".material", i.getType().name());
             if (i.hasItemMeta() && i.getItemMeta() != null) {
                 tradeLogs.set(itemKey + ".name", i.getItemMeta().getDisplayName());
@@ -88,12 +100,12 @@ public class DataManager {
         String moneyKey = key + ".money." + moneyId;
         if (plugin.getEconomyManager().getIsEnabled() && plugin.getConfig().getBoolean("tradeInGameMoney")) {
             if (player1Deposit > 0) {
-                tradeLogs.set(moneyKey + ".tradedFrom", player1.getDisplayName() + " : " + player1.getUniqueId());
+                tradeLogs.set(moneyKey + ".tradedFrom", player1.getDisplayName() + " : " + player1.getUniqueId().toString());
                 tradeLogs.set(moneyKey + ".amount", player1Deposit);
                 moneyId++;
             }
             if (player2Deposit > 0) {
-                tradeLogs.set(moneyKey + ".tradedFrom", player2.getDisplayName() + " : " + player2.getUniqueId());
+                tradeLogs.set(moneyKey + ".tradedFrom", player2.getDisplayName() + " : " + player2.getUniqueId().toString());
                 tradeLogs.set(moneyKey + ".amount", player2Deposit);
                 moneyId++;
             }

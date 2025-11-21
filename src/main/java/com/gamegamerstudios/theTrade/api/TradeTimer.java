@@ -22,14 +22,20 @@ public class TradeTimer extends BukkitRunnable {
     public void start() {
         this.runTaskTimer(plugin, 0, 20);
     }
+    public void end() {
+        cancel();
+        timeLeft = COUNTDOWN_SECONDS;
+        countdownBool = false;
+    }
 
     @Override
     public void run() {
         countdownBool = true;
         if (timeLeft == 0) {
-            trade.complete();
             countdownBool = false;
+            trade.complete();
             cancel();
+            return;
         }
         trade.updateGUI();
         timeLeft--;

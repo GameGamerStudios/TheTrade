@@ -54,25 +54,20 @@ public class Trade {
         }
 
         for (ItemStack item : items.get(player2.getUniqueId()).values()) {
-            if (Utils.getOpenSlots(player1.getInventory()) <= 0) {
-                player1.getWorld().dropItemNaturally(player1.getLocation(), item);
-                continue;
-            }
-            player1.getInventory().addItem(item);
+            Utils.giveItem(player1, item);
         }
 
         for (ItemStack item : items.get(player1.getUniqueId()).values()) {
-            if (Utils.getOpenSlots(player2.getInventory()) <= 0) {
-                player2.getWorld().dropItemNaturally(player2.getLocation(), item);
-                continue;
-            }
-            player2.getInventory().addItem(item);
+            Utils.giveItem(player2, item);
         }
 
         cancelCountdown();
         player1.closeInventory();
         player2.closeInventory();
 
+        plugin.getDataManager().logTrade(player1, player2, items, player1Despoit, player2Deposit);
+
+        items.clear();
         plugin.getTradeManager().complete(this);
     }
 
@@ -105,12 +100,15 @@ public class Trade {
 
     public void startCountdown() {
         if (!readyToComplete.contains(player1.getUniqueId()) || !readyToComplete.contains(player2.getUniqueId())) return;
+        if (this.tradeCompleteTimer == null) {
+            this.tradeCompleteTimer = new TradeTimer(this, plugin, plugin.getConfig().getInt("completeTimer", 3));
+        }
         this.tradeCompleteTimer.start();
     }
 
     public void cancelCountdown() {
-        if (this.tradeCompleteTimer != null) tradeCompleteTimer.cancel();
-        tradeCompleteTimer = null;
+        if (this.tradeCompleteTimer != null) tradeCompleteTimer.end();
+        this.tradeCompleteTimer = null;
     }
 
     public void updateGUI() { player1Inv.updateItems(); player2Inv.updateItems(); }
@@ -129,7 +127,11 @@ public class Trade {
             readyToComplete.remove(player.getUniqueId());
         }
 
-        startCountdown();
+        if (ready) {
+            startCountdown();
+        } else {
+            cancelCountdown();
+        }
     }
 
     public boolean isCompleting() { return completing; };

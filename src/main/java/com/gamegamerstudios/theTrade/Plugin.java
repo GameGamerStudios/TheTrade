@@ -10,6 +10,7 @@ public final class Plugin extends JavaPlugin {
     private RequestManager requestManager;
     private TradeManager tradeManager;
     private EconomyManager economyManager;
+    private DataManager dataManager;
     @Override
     public void onEnable() {
         ConfigManager.setupConfig(this);
@@ -17,6 +18,7 @@ public final class Plugin extends JavaPlugin {
         this.requestManager = new RequestManager(this);
         this.tradeManager = new TradeManager(this);
         this.economyManager = new EconomyManager(this);
+        this.dataManager = new DataManager(this);
         registerCommands();
         setupMetrics();
     }
@@ -42,4 +44,5 @@ public final class Plugin extends JavaPlugin {
     public RequestManager getRequestManager() { return requestManager; }
     public TradeManager getTradeManager() { return tradeManager; }
     public EconomyManager getEconomyManager() { return economyManager; }
+    public DataManager getDataManager() { return dataManager; }
 }

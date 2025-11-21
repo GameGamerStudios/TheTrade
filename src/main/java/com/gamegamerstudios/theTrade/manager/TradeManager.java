@@ -6,6 +6,7 @@ import com.gamegamerstudios.theTrade.api.TradeGUI;
 import com.gamegamerstudios.theTrade.api.TradeListener;
 import com.gamegamerstudios.theTrade.api.TradeRequest;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +31,17 @@ public class TradeManager {
         Player other = trade.getPlayer1().equals(canceller)
                 ? trade.getPlayer2()
                 : trade.getPlayer1();
+        trade.cancelCountdown();
+
+        for (ItemStack item : trade.getItems().get(canceller.getUniqueId()).values()) {
+            canceller.getInventory().addItem(item);
+        }
+
+        for (ItemStack item : trade.getItems().get(other.getUniqueId()).values()) {
+            other.getInventory().addItem(item);
+        }
+
+
 
         activeTrades.remove(trade);
 

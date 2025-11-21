@@ -201,6 +201,12 @@ public class TradeListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
+
+        if (plugin.getRequestManager().hasRequest(p.getUniqueId())) {
+            plugin.getRequestManager().cancelRequests(p.getUniqueId());
+            plugin.getRequestManager().denyRequest(p.getUniqueId());
+        }
+
         Trade trade = null;
         for (Trade t : tradeManager.getActiveTrades()) {
             if (t.getPlayer1() == p || t.getPlayer2() == p) {

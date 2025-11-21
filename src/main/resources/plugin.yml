@@ -4,8 +4,7 @@ main: com.gamegamerstudios.theTrade.Plugin
 api-version: '1.8'
 authors: [ GameGamerStudios ]
 description: The best item-trading solution.
-softdepend:
-  - Vault
+depend: [Vault]
 commands:
   trade:
     usage: /trade <player>
@@ -25,3 +24,8 @@ permissions:
   thetrade.admin:
     description: The admin permission for TheTrade.
     default: op
+    children:
+      - thetrade.bypassradius
+  thetrade.bypassradius:
+    default: op
+    description: Bypass the trading radius.

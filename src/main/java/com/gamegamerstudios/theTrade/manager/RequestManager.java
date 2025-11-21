@@ -10,6 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -26,19 +27,27 @@ public class RequestManager {
 
     public void newRequest(UUID requester, String requesterDisplay, UUID requested, String requestedDisplay) {
         Player player = Bukkit.getPlayer(requested);
+        Player requesterPlayer = Bukkit.getPlayer(requester);
         if (player == null || !player.isOnline()) {
             denyRequest(requested);
             return;
         }
 
-        Player requesterPlayer = Bukkit.getPlayer(requester);
-
-        if (plugin.getConfig().getBoolean("tradeRadiusToggle") && !Utils.withinRadius(player.getLocation(), requesterPlayer.getLocation(),
-                plugin.getConfig().getDouble("tradeRadiusAmount", 80))) {
-            requesterPlayer.sendMessage(MessageManager.getMessage("trade.notWithinRadius")
-                    .replace("%player%", requestedDisplay)
-                    .replace("%radius%", plugin.getConfig().getDouble("tradeRadiusAmount", 40) + ""));
+        for (TradeRequest request : requests.asMap().keySet()) {
+            if (!request.getRequesterUUID().equals(requester)) continue;
+            requesterPlayer.sendMessage(MessageManager.getMessage("trade.alreadySent"));
             return;
+        }
+
+        if (plugin.getConfig().getBoolean("tradeRadiusToggle") &&
+                !Utils.withinRadius(player.getLocation(), requesterPlayer.getLocation(),
+                        plugin.getConfig().getDouble("tradeRadiusAmount", 80))) {
+            if (!requesterPlayer.hasPermission("thetrade.bypassradius")) {
+                requesterPlayer.sendMessage(MessageManager.getMessage("trade.notWithinRadius")
+                        .replace("%player%", requestedDisplay)
+                        .replace("%radius%", Utils.formatDouble(plugin.getConfig().getDouble("tradeRadiusAmount", 80))));
+                return;
+            }
         }
 
         requests.put(new TradeRequest(requester, requesterDisplay, requested, requestedDisplay, plugin), REQUEST_DURATION * 1000L);
@@ -67,17 +76,6 @@ public class RequestManager {
         player.spigot().sendMessage(components);
     }
 
-    public void cancelRequest(UUID requester) {
-        Iterator<TradeRequest> iterator = requests.asMap().keySet().iterator();
-
-        while (iterator.hasNext()) {
-            TradeRequest request = iterator.next();
-            if (request.getRequesterUUID().equals(requester)) {
-                iterator.remove();
-            }
-        }
-    }
-
     public void denyRequest(UUID requested) {
         Iterator<TradeRequest> iterator = requests.asMap().keySet().iterator();
 
@@ -103,14 +101,15 @@ public class RequestManager {
             requests.invalidate(request);
         }
 
+        Player requestedPlayer = Bukkit.getPlayer(requested);
         Player requesterPlayer = Bukkit.getPlayer(requester);
-        if (requesterPlayer != null && requesterPlayer.isOnline()) {
-            requesterPlayer.sendMessage(MessageManager.getMessage("trade.requesterDenied"));
+        if (requestedPlayer != null && requestedPlayer.isOnline()) {
+            requestedPlayer.sendMessage(MessageManager.getMessage("trade.requestedDenied")
+                    .replace("%player%", requesterPlayer.getDisplayName()));
         }
 
-        Player requestedPlayer = Bukkit.getPlayer(requested);
-        if (requestedPlayer != null && requesterPlayer.isOnline()) {
-            requestedPlayer.sendMessage(MessageManager.getMessage("trade.requestedDenied"));
+        if (requesterPlayer != null && requesterPlayer.isOnline()) {
+            requesterPlayer.sendMessage(MessageManager.getMessage("trade.requestedDenied"));
         }
     }
 
@@ -143,25 +142,29 @@ public class RequestManager {
             if (requesterPlayer == null) {
                 requestedPlayer.sendMessage(MessageManager.getMessage("trade.playerOffline")
                         .replace("%player%", request.getRequesterDisplay()));
+                cancelRequests(requester);
             }
 
             if (requestedPlayer == null) {
                 requesterPlayer.sendMessage(MessageManager.getMessage("trade.playerOffline")
                         .replace("%player%", request.getRequestedDisplay()));
+                cancelRequests(requester);
             }
             return;
         }
 
-        cancelRequests(requester);
-
         if (plugin.getConfig().getBoolean("tradeRadiusToggle") &&
-                !Utils.withinRadius(requesterPlayer.getLocation(), requestedPlayer.getLocation(),
+                !Utils.withinRadius(requestedPlayer.getLocation(), requesterPlayer.getLocation(),
                         plugin.getConfig().getDouble("tradeRadiusAmount", 80))) {
-            requestedPlayer.sendMessage(MessageManager.getMessage("trade.notWithinRadius")
-                    .replace("%player%", requesterPlayer.getDisplayName())
-                    .replace("%radius%", plugin.getConfig().getDouble("tradeRadiusAmount", 40) + ""));
-            return;
+            if (!requesterPlayer.hasPermission("thetrade.bypassradius") && !requestedPlayer.hasPermission("thetrade.bypassradius")) {
+                requestedPlayer.sendMessage(MessageManager.getMessage("trade.notWithinRadius")
+                        .replace("%player%", requesterPlayer.getDisplayName())
+                        .replace("%radius%", plugin.getConfig().getDouble("tradeRadiusAmount", 40) + ""));
+                return;
+            }
         }
+
+        cancelRequests(requester);
 
         for (TradeRequest r : requests.asMap().keySet()) {
             if (r.getRequestedUUID().equals(requested)) {
@@ -176,8 +179,10 @@ public class RequestManager {
         Iterator<TradeRequest> iterator = requests.asMap().keySet().iterator();
 
         while (iterator.hasNext()) {
-            if (iterator.next().getRequesterUUID().equals(requester)) {
-                iterator.next().cancelRequest(true);
+            TradeRequest request = iterator.next();
+            if (request.getRequesterUUID().equals(requester)) {
+                request.cancelRequest(true);
+                iterator.remove();
             }
         }
     }
@@ -185,6 +190,7 @@ public class RequestManager {
     public boolean hasRequest(UUID player) {
         for (TradeRequest request : requests.asMap().keySet()) {
             if (request.getRequestedUUID().equals(player)) return true;
+            if (request.getRequesterUUID().equals(player)) return true;
         }
         return false;
     }
@@ -200,5 +206,6 @@ public class RequestManager {
         for (TradeRequest request : requests.asMap().keySet()) {
             request.cancelRequest(false);
         }
+        requests.cleanUp();
     }
 }

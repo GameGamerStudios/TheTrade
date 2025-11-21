@@ -20,6 +20,7 @@ trade:
   newRequest: '%prefix% &eYou have a trade request from &a%player%. &a&lClick To Accept'
   acceptCommandHoverMsg: '&e/trade %player%'
   sent: '%prefix% &eYou sent a trade request to &a%player%. &eThey have &a%time%s &eto accept.'
+  alreadySent: '%prefix% &cYou already sent a trade request!'
   sentExpired: '%prefix% &eYour trade request to &a%player% &eexpired.'
   receivedExpired: '%prefix% &eYour trade request from &a%player% &eexpired.'
   requesterDenied: '%prefix% &a%player% &cdenied your trade request.'
