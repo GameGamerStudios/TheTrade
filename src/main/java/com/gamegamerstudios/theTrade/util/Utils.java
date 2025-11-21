@@ -1,10 +1,13 @@
 package com.gamegamerstudios.theTrade.util;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +42,7 @@ public class Utils {
         return base * multiplier;
     }
 
-    public static String format(double value) {
+    public static String formatDate(double value) {
         if (value >= 1_000_000_000_000L)
             return String.format("%.2ft", value / 1_000_000_000_000L);
         if (value >= 1_000_000_000)
@@ -69,5 +72,21 @@ public class Utils {
         double dz = loc2.getZ() - loc2.getZ();
 
         return (dx * dx + dz * dz) <= radius * radius;
+    }
+
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("M/d/yyyy : h:mm a");
+
+    public static String formatDate(LocalDateTime dateTime) {
+        return dateTime.format(FORMATTER);
+    }
+    public static String formatLocation(Location loc) {
+        return String.format(ChatColor.GRAY + "(X:%.2f, Y:%.2f, Z:%.2f, Yaw:%.2f, Pitch:%.2f)",
+                loc.getX(),
+                loc.getY(),
+                loc.getZ(),
+                loc.getYaw(),
+                loc.getPitch()
+        );
     }
 }

@@ -1,6 +1,10 @@
 #The language you want the plugin to run in. Current options: 'lang_en' - English
 language: 'lang_en'
 
+#Should we log trades in 'tradeLogs.yml' ?
+#Default: true
+logTrades: true
+
 #The amount of time (in seconds) a trade request will last before it expires.
 #Default: 30
 requestDuration: 30
@@ -24,6 +28,12 @@ tradeRadiusToggle: true
 #as long as their X and Z values are withing each other, they can still trade.
 #Default 80
 tradeRadiusAmount: 80
+
+#Items in this list will be blocked from trades.
+blacklistItems:
+  - BARRIER
+  - DEBUG_STICK
+  - COMMAND_BLOCK
 
 #DO NOT CHANGE THIS! IT WILL BREAK THIS PLUGIN!
 fileVersion: 0

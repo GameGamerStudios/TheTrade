@@ -2,12 +2,9 @@ package com.gamegamerstudios.theTrade.api;
 
 import com.gamegamerstudios.theTrade.Plugin;
 import com.gamegamerstudios.theTrade.util.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,6 +138,6 @@ public class Trade {
     public Player getPlayer1() { return player1; }
     public Player getPlayer2() { return player2; }
     public double getDeposit(Player player) { return player == player1 ? player1Despoit : player2Deposit; }
-    public String getDepositFormatted(Player player) { return player == player1 ? Utils.format(player1Despoit) : Utils.format(player2Deposit); }
+    public String getDepositFormatted(Player player) { return player == player1 ? Utils.formatDate(player1Despoit) : Utils.formatDate(player2Deposit); }
     public HashMap<UUID, HashMap<Integer, ItemStack>> getItems() { return items; }
 }

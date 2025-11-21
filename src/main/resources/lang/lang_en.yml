@@ -3,6 +3,8 @@ logprefix: '[TheTrade]'
 general:
   notPlayer: '%log_prefix% Only players can do this!'
   notOnline: '%prefix% &cThat player is not online!'
+  fileError: '%log_prefix% Unable to create file "%file%"!'
+  fileSaveError: '%log_prefix% Unable to save file "%file%"!'
   noVault: '%log_prefix% Vault was not found! Trading money WILL BE DISABLED.'
   unsupportedVersion: '%log_prefix% This version is not supported because one of the APIs we use does not support it! Trading currency WILL NOT WORK.'
 command:

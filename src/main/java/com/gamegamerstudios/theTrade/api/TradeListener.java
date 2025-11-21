@@ -121,6 +121,12 @@ public class TradeListener implements Listener {
 
         if (e.getCursor() != null && e.getCursor().getType() != Material.AIR) {
             if (e.getCurrentItem() == null) {
+                for (String str : plugin.getConfig().getStringList("blacklistItems")) {
+                    Material material = Material.matchMaterial(str);
+                    if (material == null) { continue; }
+
+                    if (material == e.getCursor().getType()) return;
+                }
                 trade.updateItem(p, e.getCursor().clone(), e.getRawSlot());
                 e.setCursor(null);
                 return;
