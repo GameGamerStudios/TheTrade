@@ -24,7 +24,7 @@ public class TradeManager {
     public void newTrade(Player player1, Player player2) {
         activeTrades.add(new Trade(plugin, player1, player2));
     }
-    public void cancelTrade(Player canceller) {
+    public void cancelTrade(Player canceller, boolean byAdmin) {
         Trade trade = getTrade(canceller);
         if (trade == null) return;
 
@@ -45,14 +45,22 @@ public class TradeManager {
         activeTrades.remove(trade);
 
         if (canceller.isOnline()) {
-            canceller.sendMessage(MessageManager.getMessage("trade.cancelPlayer"));
+            if (byAdmin) {
+                canceller.sendMessage(MessageManager.getMessage("trade.admincancel"));
+            } else {
+                canceller.sendMessage(MessageManager.getMessage("trade.cancelPlayer"));
+            }
         }
 
         if (other.isOnline()) {
-            other.sendMessage(
-                    MessageManager.getMessage("trade.canceledOther")
-                            .replace("%player%", canceller.getDisplayName())
-            );
+            if (byAdmin) {
+                other.sendMessage(MessageManager.getMessage("trade.admincancel"));
+            } else {
+                other.sendMessage(
+                        MessageManager.getMessage("trade.canceledOther")
+                                .replace("%player%", canceller.getDisplayName())
+                );
+            }
         }
 
         if (canceller.isOnline()) canceller.closeInventory();
@@ -73,7 +81,8 @@ public class TradeManager {
 
     public Trade getTrade(Player player) {
         for (Trade trade : activeTrades) {
-            if (trade.getPlayer1().equals(player) || trade.getPlayer2().equals(player)) {
+            if (trade.getPlayer1().getUniqueId().equals(player.getUniqueId())
+                    || trade.getPlayer2().getUniqueId().equals(player.getUniqueId())) {
                 return trade;
             }
         }

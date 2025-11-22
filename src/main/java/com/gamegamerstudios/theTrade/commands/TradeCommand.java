@@ -26,6 +26,11 @@ public class TradeCommand implements CommandExecutor {
             return true;
         }
 
+        if (plugin.getDataManager().isBanned(p.getUniqueId())) {
+            p.sendMessage(MessageManager.getMessage("command.trade.banned"));
+            return true;
+        }
+
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
             p.sendMessage(MessageManager.getMessage("general.notOnline"));
@@ -39,6 +44,11 @@ public class TradeCommand implements CommandExecutor {
 
         if (target.equals(p)) {
             p.sendMessage(MessageManager.getMessage("command.trade.needOtherPlayer"));
+            return true;
+        }
+
+        if (plugin.getDataManager().isBanned(target.getUniqueId())) {
+            p.sendMessage(MessageManager.getMessage("command.trade.playerBanned"));
             return true;
         }
 

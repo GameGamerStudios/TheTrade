@@ -18,18 +18,43 @@ commands:
       - ta
       - tradea
 permissions:
+  thetrade.user.*:
+    description: All default permissions for TheTrade.
+    default: true
+    children:
+      - thetrade.trade
   thetrade.trade:
     description: Allows a player to trade with other players (/trade)
     default: true
-  thetrade.admin:
-    description: The admin permission for TheTrade.
+  thetrade.admin.*:
+    description: All admin permissions for TheTrade.
     default: op
     children:
       - thetrade.bypassradius
       - thetrade.admin.updatenotify
+      - thetrade.admin.canceltrades
+      - thetrade.admin.cancelrequests
+      - thetrade.admin.command
+      - thetrade.admin.ban
+      - thetrade.admin.unban
+  thetrade.admin.command:
+    description: Allows the user to ACCESS the admin command. Other permissions may be required to use certain features of the command, but they are included in "thetrade.admin.*"
+    default: op
+  thetrade.admin.canceltrades:
+    description: Allows users to cancel other people's trades.
+    default: op
+  thetrade.admin.cancelrequests:
+    description: Allows users to cancel other people's trade requests.
+    default: op
   thetrade.bypassradius:
     default: op
     description: Bypass the trading radius.
   thetrade.admin.updatenotify:
     description: Get notified of new plugin updates.
+    default: op
+  thetrade.admin.ban:
+    description: Allows the user to ban specified users from sending and accepting trades WITH ANYONE until further notice.
+    default: op
+  thetrade.admin.unban:
+    description: Allows the user to unban specified users from sending and accepting trades WITH ANYONE.
     default: op

@@ -39,7 +39,7 @@ public class TradeRequest {
                                 .replace("%player%", requesterDisplay));
                     }
 
-                    cancelRequest(false);
+                    cancelRequest(false, false);
                 }
                 timeLeft--;
             }
@@ -47,17 +47,31 @@ public class TradeRequest {
                 0, 20);
     }
 
-    public void cancelRequest(boolean fromPlayer) {
+    public void cancelRequest(boolean fromPlayer, boolean byAdmin) {
         if (this.task != null) {
             this.task.cancel();
         }
         this.task = null;
 
+        Player target = Bukkit.getPlayer(requestedUUID);
+        Player otherTarget = Bukkit.getPlayer(requesterUUID);
+
         if (fromPlayer) {
-            Player target = Bukkit.getPlayer(requestedUUID);
             if (target != null && target.isOnline()) {
                 target.sendMessage(MessageManager.getMessage("trade.playerRequestCancel")
                         .replace("%player%", requesterDisplay));
+            }
+        }
+
+        if (byAdmin) {
+            if (otherTarget != null && otherTarget.isOnline()) {
+                otherTarget.sendMessage(MessageManager.getMessage("trade.admincancelrequestRequesterPOV")
+                        .replace("%requested%", requestedDisplay));
+            }
+
+            if (target != null && target.isOnline()) {
+                target.sendMessage(MessageManager.getMessage("trade.admincancelrequestRequestedPOV")
+                        .replace("%requester%", requesterDisplay));
             }
         }
     }

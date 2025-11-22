@@ -225,7 +225,7 @@ public class TradeListener implements Listener {
             }
         }
         if (trade == null) return;
-        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p);
+        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p, false);
     }
 
     @EventHandler
@@ -233,7 +233,7 @@ public class TradeListener implements Listener {
         Player p = e.getPlayer();
 
         if (plugin.getRequestManager().hasRequest(p.getUniqueId())) {
-            plugin.getRequestManager().cancelRequests(p.getUniqueId());
+            plugin.getRequestManager().cancelRequests(p.getUniqueId(), false);
             plugin.getRequestManager().denyRequest(p.getUniqueId());
         }
 
@@ -245,7 +245,7 @@ public class TradeListener implements Listener {
             }
         }
         if (trade == null) return;
-        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p);
+        if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p, false);
     }
 
     @EventHandler

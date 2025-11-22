@@ -6,6 +6,7 @@ general:
   fileError: '%log_prefix% Unable to create file "%file%"!'
   fileSaveError: '%log_prefix% Unable to save file "%file%"!'
   noVault: '%log_prefix% Vault AND an Economy Plugin was not found! Trading money WILL BE DISABLED.'
+  noPermission: '%prefix% &cYou do not have permission to do that.'
   unsupportedVersion: '%log_prefix% This version is not supported because one of the APIs we use does not support it! Trading currency WILL NOT WORK.'
 update:
   checkFailed: '%log_prefix% Failed to check for plugin updates! '
@@ -16,11 +17,55 @@ command:
   trade:
     usage: '%prefix% &cInvalid usage! /trade <player>'
     needOtherPlayer: '%prefix% &cYou cannot trade with yourself!'
+    banned: '%prefix% &cYou are currently banned from trading.'
+    playerBanned: '%prefix% &cThat player is currently banned from trading.'
   admin:
     usage: '%prefix% &cInvalid usage! /tradeadmin help'
     activetrades:
+      title: '%prefix% &eActive trades: &7(%amount%) | &eClick Any To Cancel'
+      format: '&7%id%. &e%player1% &7- &e%player2% &7| &eClick To Cancel'
+    activetradesconsole:
       title: '%prefix% &eActive trades: &7(%amount%)'
       format: '&7%id%. &e%player1% &7- &e%player2%'
+    activerequests:
+      title: '%prefix% &eActive Trade Requests: &7(%amount%) | &eClick Any To Cancel'
+      format: '&7%id%. &e%player1% &7to &e%player2% &7| &eClick To Cancel'
+    activerequestsconsole:
+      title: '%prefix% &eActive Trade Requests: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7to &e%player2%'
+    cancelHover: '&7Click To Cancel'
+    canceltradeusage: '%prefix% &cInvalid usage! &7/tradeadmin canceltrade <player>'
+    cancelrequestusage: '%prefix% &cInvalid usage! &7/tradeadmin cancelrequest <player>'
+    banusage: '%prefix% &cInvalid usage! &7/tradeadmin ban <player>'
+    unbanusage: '%prefix% &cInvalid usage! &7/tradeadmin unban <player>'
+    banned: '%prefix% &cYou banned &a%player% &cfrom trading! &eTo unban, &7/tradeadmin unban <player>'
+    alreadyBanned: '%prefix% &cThat player is already banned! &eTo unban, &7/tradeadmin unban <player>'
+    notBanned: '%prefix% &cThat player is not banned! &eTo ban, &7/tradeadmin ban <player>'
+    nottrading: '%prefix% &cThat player is not in a trade!'
+    tradecanceled: "%prefix% &eYou canceled &a%player%'s &etrade."
+    requestcanceled: "%prefix% &eYou canceled &a%player%'s &etrade request."
+    nooutgoingrequest: '%prefix% &cThat player does not have an outgoing trade request.'
+    help:
+      - '%prefix% &eTradeAdmin Help &7(&f/thetradeadmin&7)'
+      - '&7--------------------------------'
+      - '&6/tradeadmin activetrades'
+      - '&7- &fView all currently active trades.'
+      - '&7- &eClick any trade to cancel it.'
+      - ''
+      - '&6/tradeadmin activerequests'
+      - '&7- &fView all outgoing trade requests.'
+      - '&7- &eClick any request to cancel it.'
+      - ''
+      - '&6/tradeadmin canceltrade <player>'
+      - '&7- &fForce cancel a players active trade.'
+      - '&7- &8Permission: &ethetrade.admin.canceltrades'
+      - ''
+      - '&6/tradeadmin cancelrequest <player>'
+      - '&7- &fForce cancel a players outgoing request.'
+      - '&7- &8Permission: &ethetrade.admin.cancelrequests'
+      - ''
+      - '&6/tradeadmin help'
+      - '&7- &fShows this help menu.'
 trade:
   newRequest: '%prefix% &eYou have a trade request from &a%player%. &a&lClick To Accept'
   acceptCommandHoverMsg: '&e/trade %player%'
@@ -37,6 +82,9 @@ trade:
   invalidMoneyInput: '%prefix% &cThat is not a valid amount!'
   notWithinRadius: '%prefix% &a%player% &cis too far away to trade! &7(Must be within %radius% blocks)'
   blacklistedItem: '%prefix% &cYou cannot trade that.'
+  admincancel: '%prefix% &cYour trade was canceled by an admin.'
+  admincancelrequestRequesterPOV: '%prefix% &cYour trade request to &a%requested% &cwas canceled by an admin.'
+  admincancelrequestRequestedPOV: '%prefix% &cYour trade request from &a%requester% &cwas canceled by an admin.'
   noMoney: '%prefix% &cYou cannot deposit more than you have!'
   complete: '%prefix% &eTrade Complete! Summary: '
   summaryPositive: '&7[&a+&7]&a %item% &7- &e%amount%x'

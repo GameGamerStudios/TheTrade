@@ -97,7 +97,7 @@ public class RequestManager {
         }
 
         if (request != null) {
-            request.cancelRequest(false);
+            request.cancelRequest(false, false);
             requests.invalidate(request);
         }
 
@@ -126,7 +126,7 @@ public class RequestManager {
             return;
         }
 
-        request.cancelRequest(false);
+        request.cancelRequest(false, false);
         requests.invalidate(request);
 
         Player requesterPlayer = Bukkit.getPlayer(requester);
@@ -142,13 +142,13 @@ public class RequestManager {
             if (requesterPlayer == null) {
                 requestedPlayer.sendMessage(MessageManager.getMessage("trade.playerOffline")
                         .replace("%player%", request.getRequesterDisplay()));
-                cancelRequests(requester);
+                cancelRequests(requester, false);
             }
 
             if (requestedPlayer == null) {
                 requesterPlayer.sendMessage(MessageManager.getMessage("trade.playerOffline")
                         .replace("%player%", request.getRequestedDisplay()));
-                cancelRequests(requester);
+                cancelRequests(requester, false);
             }
             return;
         }
@@ -164,7 +164,7 @@ public class RequestManager {
             }
         }
 
-        cancelRequests(requester);
+        cancelRequests(requester, false);
 
         for (TradeRequest r : requests.asMap().keySet()) {
             if (r.getRequestedUUID().equals(requested)) {
@@ -175,13 +175,13 @@ public class RequestManager {
         plugin.getTradeManager().newTrade(requesterPlayer, requestedPlayer);
     }
 
-    public void cancelRequests(UUID requester) {
+    public void cancelRequests(UUID requester, boolean byAdmin) {
         Iterator<TradeRequest> iterator = requests.asMap().keySet().iterator();
 
         while (iterator.hasNext()) {
             TradeRequest request = iterator.next();
             if (request.getRequesterUUID().equals(requester)) {
-                request.cancelRequest(true);
+                request.cancelRequest((!byAdmin), byAdmin);
                 iterator.remove();
             }
         }
@@ -204,8 +204,17 @@ public class RequestManager {
 
     public void shutdown() {
         for (TradeRequest request : requests.asMap().keySet()) {
-            request.cancelRequest(false);
+            request.cancelRequest(false, false);
         }
         requests.cleanUp();
     }
+
+    public boolean hasOutgoingRequest(Player player) {
+        for (TradeRequest request : requests.asMap().keySet()) {
+            if (request.getRequesterUUID().equals(player.getUniqueId())) return true;
+        }
+        return false;
+    }
+
+    public Cache<TradeRequest, Long> getRequests() { return requests; }
 }
