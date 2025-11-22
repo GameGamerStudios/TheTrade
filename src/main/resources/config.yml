@@ -40,5 +40,10 @@ blacklistItems:
   - COMMAND_CHAIN
   - COMMAND_REPEATING
 
+#Should we notify you when a new update is available for this plugin?
+#We STRONGLY recommend enabling this as we push out updates with new features and bug fixes you don't want to miss.
+#Default: true
+updateChecker: true
+
 #DO NOT CHANGE THIS! IT WILL BREAK THIS PLUGIN!
 fileVersion: 0

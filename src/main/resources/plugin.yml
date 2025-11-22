@@ -1,5 +1,5 @@
 name: TheTrade
-version: '1.0-PRE'
+version: '1.0'
 main: com.gamegamerstudios.theTrade.Plugin
 api-version: '1.8'
 authors: [ GameGamerStudios ]
@@ -26,6 +26,10 @@ permissions:
     default: op
     children:
       - thetrade.bypassradius
+      - thetrade.admin.updatenotify
   thetrade.bypassradius:
     default: op
     description: Bypass the trading radius.
+  thetrade.admin.updatenotify:
+    description: Get notified of new plugin updates.
+    default: op

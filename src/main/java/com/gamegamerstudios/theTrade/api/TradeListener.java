@@ -8,6 +8,7 @@ import com.gamegamerstudios.theTrade.util.Utils;
 import de.rapha149.signgui.SignGUI;
 import de.rapha149.signgui.SignGUIAction;
 import de.rapha149.signgui.exception.SignGUIVersionException;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -54,6 +56,12 @@ public class TradeListener implements Listener {
 
         if (plugin.getEconomyManager().getIsEnabled()) {
             if (plugin.getConfig().getBoolean("tradeInGameMoney") && e.getRawSlot() == 48) {
+                if (trade.getTradeTimer().isRunning()) {
+                    e.setCancelled(true);
+                    Bukkit.getLogger().info(trade.getTradeTimer().isRunning()  + " yes or no?");
+                    return;
+                }
+
                 inputting.add(p.getUniqueId());
 
                 try {
@@ -128,6 +136,11 @@ public class TradeListener implements Listener {
                 trade.setReadyToComplete(p, false);
             }
             trade.updateGUI();
+            return;
+        }
+
+        if (trade.getTradeTimer().isRunning()) {
+            e.setCancelled(true);
             return;
         }
 
@@ -233,5 +246,26 @@ public class TradeListener implements Listener {
         }
         if (trade == null) return;
         if (tradeManager.isTrading(p)) tradeManager.cancelTrade(p);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        if (!e.getPlayer().hasPermission("thetrade.admin.updatenotify")) return;
+        if (!plugin.getConfig().getBoolean("updateChecker")) return;
+        if (!plugin.getUpdateChecker().updateAvailable()) return;
+
+        BaseComponent[] components = TextComponent.fromLegacyText(MessageManager.getMessage("update.availableInGame")
+                        .replace("%url%", "https://www.spigotmc.org/resources/" + plugin.getResourceId()));
+        BaseComponent[] hoverText = new ComponentBuilder(MessageManager.getMessage("update.inGameHover"))
+                .create();
+        ClickEvent click = new ClickEvent(ClickEvent.Action.OPEN_URL,
+                "https://www.spigotmc.org/resources/" + plugin.getResourceId());
+        HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText);
+        for (BaseComponent b : components) {
+            b.setClickEvent(click);
+            b.setHoverEvent(hover);
+        }
+
+        e.getPlayer().spigot().sendMessage(components);
     }
 }

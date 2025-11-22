@@ -7,6 +7,11 @@ general:
   fileSaveError: '%log_prefix% Unable to save file "%file%"!'
   noVault: '%log_prefix% Vault AND an Economy Plugin was not found! Trading money WILL BE DISABLED.'
   unsupportedVersion: '%log_prefix% This version is not supported because one of the APIs we use does not support it! Trading currency WILL NOT WORK.'
+update:
+  checkFailed: '%log_prefix% Failed to check for plugin updates! '
+  available: '%log_prefix% A new update is available! Current version: %current% Latest version: %latest% - Download: %url%'
+  availableInGame: '%prefix% &eA new update is available! Click To Download: %url%'
+  inGameHover: '&eClick To View Update'
 command:
   trade:
     usage: '%prefix% &cInvalid usage! /trade <player>'

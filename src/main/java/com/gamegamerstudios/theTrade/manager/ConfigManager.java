@@ -12,6 +12,7 @@ public class ConfigManager {
         plugin.saveDefaultConfig();
         plugin.getConfig().options().copyDefaults();
         config = plugin.getConfig();
+        updateConfig(plugin);
     }
 
     public static void updateConfig(Plugin plugin) {

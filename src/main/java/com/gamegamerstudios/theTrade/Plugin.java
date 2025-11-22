@@ -4,13 +4,18 @@ import com.gamegamerstudios.theTrade.commands.TradeAdminCommand;
 import com.gamegamerstudios.theTrade.commands.TradeCommand;
 import com.gamegamerstudios.theTrade.manager.*;
 import com.gamegamerstudios.theTrade.util.Metrics;
+import com.gamegamerstudios.theTrade.util.UpdateChecker;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.time.Duration;
+
 public final class Plugin extends JavaPlugin {
+    private final int resourceId = 0;
     private RequestManager requestManager;
     private TradeManager tradeManager;
     private EconomyManager economyManager;
     private DataManager dataManager;
+    private UpdateChecker updateChecker;
     @Override
     public void onEnable() {
         ConfigManager.setupConfig(this);
@@ -19,6 +24,10 @@ public final class Plugin extends JavaPlugin {
         this.tradeManager = new TradeManager(this);
         this.economyManager = new EconomyManager(this);
         this.dataManager = new DataManager(this);
+        if (getConfig().getBoolean("updateChecker")) {
+            this.updateChecker = new UpdateChecker(this, resourceId, Duration.ofHours(1));
+            updateChecker.checkForUpdates();
+        }
         registerCommands();
         setupMetrics();
     }
@@ -41,8 +50,11 @@ public final class Plugin extends JavaPlugin {
         tradeManager.shutdown();
     }
 
+    public int getResourceId() { return resourceId; }
+
     public RequestManager getRequestManager() { return requestManager; }
     public TradeManager getTradeManager() { return tradeManager; }
     public EconomyManager getEconomyManager() { return economyManager; }
     public DataManager getDataManager() { return dataManager; }
+    public UpdateChecker getUpdateChecker() { return updateChecker; }
 }
