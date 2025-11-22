@@ -39,6 +39,7 @@ command:
     banusage: '%prefix% &cInvalid usage! &7/tradeadmin ban <player>'
     unbanusage: '%prefix% &cInvalid usage! &7/tradeadmin unban <player>'
     banned: '%prefix% &cYou banned &a%player% &cfrom trading! &eTo unban, &7/tradeadmin unban <player>'
+    unbanned: '%prefix% &eYou unbanned &a%player% &efrom trading!'
     alreadyBanned: '%prefix% &cThat player is already banned! &eTo unban, &7/tradeadmin unban <player>'
     notBanned: '%prefix% &cThat player is not banned! &eTo ban, &7/tradeadmin ban <player>'
     nottrading: '%prefix% &cThat player is not in a trade!'

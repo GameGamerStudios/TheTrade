@@ -225,6 +225,8 @@ public class TradeAdminCommand implements CommandExecutor, TabCompleter {
                 }
 
                 plugin.getDataManager().unban(b, sender);
+                sender.sendMessage(MessageManager.getMessage("command.admin.unbanned")
+                        .replace("%player%", b.getName()));
                 return true;
         }
 

@@ -71,8 +71,12 @@ public class DataManager {
                 return;
             }
         }
-
         bans = YamlConfiguration.loadConfiguration(bansFile);
+
+        if (bans.getConfigurationSection("bannedUsers") == null) {
+            bans.createSection("bannedUsers");
+        }
+
         saveBans();
     }
 
@@ -98,28 +102,28 @@ public class DataManager {
 
     public boolean isBanned(UUID uuid) {
         HashMap<UUID, String> bannedUsers = new HashMap<>();
-        int i = 0;
         for (String str : bans.getConfigurationSection("bannedUsers").getKeys(false)) {
-            bannedUsers.put(UUID.fromString(bans.getString(str + i + ".uuid")), bans.getString(str + i + ".name"));
-            i++;
+            bannedUsers.put(UUID.fromString(bans.getString("bannedUsers." + str + ".uuid")), bans.getString("bannedUsers." + str + ".name"));
         }
         return bannedUsers.containsKey(uuid);
     }
 
     public void ban(OfflinePlayer player, CommandSender banner) {
         HashMap<UUID, String> bannedUsers = new HashMap<>();
-        int i = 0;
         for (String str : bans.getConfigurationSection("bannedUsers").getKeys(false)) {
-            bannedUsers.put(UUID.fromString(bans.getString(str + i + ".uuid")), bans.getString(str + i + ".name"));
-            i++;
+            bannedUsers.put(UUID.fromString(bans.getString("bannedUsers." + str + ".uuid")),
+                    bans.getString("bannedUsers." + str + ".name"));
         }
         bannedUsers.put(player.getUniqueId(), player.getName());
+
+        bans.set("bannedUsers", null);
+        bans.createSection("bannedUsers");
 
         Iterator<Map.Entry<UUID, String>> iterator = bannedUsers.entrySet().iterator();
         int d = 0;
         while (iterator.hasNext()) {
             Map.Entry<UUID, String> entry = iterator.next();
-            bans.set("bannedUsers." + d + ".uuid", entry.getKey());
+            bans.set("bannedUsers." + d + ".uuid", entry.getKey().toString());
             bans.set("bannedUsers." + d + ".name", entry.getValue());
             d++;
         }
@@ -130,18 +134,20 @@ public class DataManager {
 
     public void unban(OfflinePlayer player, CommandSender banner) {
         HashMap<UUID, String> bannedUsers = new HashMap<>();
-        int i = 0;
         for (String str : bans.getConfigurationSection("bannedUsers").getKeys(false)) {
-            bannedUsers.put(UUID.fromString(bans.getString(str + i + ".uuid")), bans.getString(str + i + ".name"));
-            i++;
+            bannedUsers.put(UUID.fromString(bans.getString("bannedUsers." + str + ".uuid")),
+                    bans.getString("bannedUsers." + str + ".name"));
         }
         bannedUsers.remove(player.getUniqueId());
+
+        bans.set("bannedUsers", null);
+        bans.createSection("bannedUsers");
 
         Iterator<Map.Entry<UUID, String>> iterator = bannedUsers.entrySet().iterator();
         int d = 0;
         while (iterator.hasNext()) {
             Map.Entry<UUID, String> entry = iterator.next();
-            bans.set("bannedUsers." + d + ".uuid", entry.getKey());
+            bans.set("bannedUsers." + d + ".uuid", entry.getKey().toString());
             bans.set("bannedUsers." + d + ".name", entry.getValue());
             d++;
         }
@@ -231,10 +237,8 @@ public class DataManager {
 
     public List<String> getBannedNames() {
         List<String> bannedUsers = new ArrayList<>();
-        int i = 0;
         for (String str : bans.getConfigurationSection("bannedUsers").getKeys(false)) {
-            bannedUsers.add(bans.getString(str + i + ".name"));
-            i++;
+            bannedUsers.add(bans.getString("bannedUsers." + str + ".name"));
         }
         return bannedUsers;
     }
