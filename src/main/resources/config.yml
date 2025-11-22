@@ -1,3 +1,18 @@
+# ████████╗██╗  ██╗███████╗████████╗██████╗  █████╗ ██████╗ ███████╗
+# ╚══██╔══╝██║  ██║██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝
+#    ██║   ███████║█████╗     ██║   ██████╔╝███████║██████╔╝█████╗
+#    ██║   ██╔══██║██╔══╝     ██║   ██╔══██╗██╔══██║██╔══██╗██╔══╝
+#    ██║   ██║  ██║███████╗   ██║   ██║  ██║██║  ██║██║  ██║███████╗
+#    ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
+#
+#                   TheTrade - Advanced Trading Plugin
+#                  Created by GameGamerStudios © 2025
+#            Fully configurable • Multi-version • Vault support
+#
+#                       Wiki & Documentation:
+#           https://github.com/GameGamerStudios/TheTrade/wiki
+#
+
 #The language you want the plugin to run in. Current options: 'lang_en' - English
 language: 'lang_en'
 
