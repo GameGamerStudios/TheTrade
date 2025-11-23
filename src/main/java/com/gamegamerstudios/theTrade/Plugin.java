@@ -5,12 +5,13 @@ import com.gamegamerstudios.theTrade.commands.TradeCommand;
 import com.gamegamerstudios.theTrade.manager.*;
 import com.gamegamerstudios.theTrade.util.Metrics;
 import com.gamegamerstudios.theTrade.util.UpdateChecker;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.Duration;
 
 public final class Plugin extends JavaPlugin {
-    private final int resourceId = 0;
+    private final int resourceId = 130311;
     private RequestManager requestManager;
     private TradeManager tradeManager;
     private EconomyManager economyManager;
@@ -18,6 +19,7 @@ public final class Plugin extends JavaPlugin {
     private UpdateChecker updateChecker;
     @Override
     public void onEnable() {
+        sendStartupMessages();
         ConfigManager.setupConfig(this);
         MessageManager.initMessageManager(this);
         this.requestManager = new RequestManager(this);
@@ -57,4 +59,17 @@ public final class Plugin extends JavaPlugin {
     public EconomyManager getEconomyManager() { return economyManager; }
     public DataManager getDataManager() { return dataManager; }
     public UpdateChecker getUpdateChecker() { return updateChecker; }
+
+    private void sendStartupMessages() {
+        Bukkit.getLogger().info(" ████████╗██╗  ██╗███████╗████████╗██████╗  █████╗ ██████╗ ███████╗");
+        Bukkit.getLogger().info(" ╚══██╔══╝██║  ██║██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝");
+        Bukkit.getLogger().info("    ██║   ██╔══██║██╔══╝     ██║   ██╔══██╗██╔══██║██╔══██╗██╔══╝");
+        Bukkit.getLogger().info("    ██║   ██╔══██║██╔══╝     ██║   ██╔══██╗██╔══██║██╔══██╗██╔══╝");
+        Bukkit.getLogger().info("    ██║   ██║  ██║███████╗   ██║   ██║  ██║██║  ██║██║  ██║███████╗");
+        Bukkit.getLogger().info("    ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝");
+        Bukkit.getLogger().info(" ");
+        Bukkit.getLogger().info("                      By GameGamerStudios");
+        Bukkit.getLogger().info(" ");
+        Bukkit.getLogger().info("                       Loading Plugin...");
+    }
 }

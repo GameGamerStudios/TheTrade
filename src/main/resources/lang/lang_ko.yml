@@ -1,0 +1,125 @@
+prefix: '&8[&6&l거&e&l래&8]&r'
+logprefix: '[거래]'
+general:
+  notPlayer: '%log_prefix% 플레이어만 이 작업을 할 수 있습니다!'
+  notOnline: '%prefix% &c해당 플레이어는 온라인이 아닙니다!'
+  fileError: '%log_prefix% 파일 "%file%"을(를) 생성할 수 없습니다!'
+  fileSaveError: '%log_prefix% 파일 "%file%"을(를) 저장할 수 없습니다!'
+  noVault: '%log_prefix% Vault 및 경제 플러그인을 찾을 수 없습니다! 화폐 거래가 비활성화됩니다.'
+  noPermission: '%prefix% &c이 작업을 수행할 권한이 없습니다.'
+  unsupportedVersion: '%log_prefix% 이 버전은 사용 중인 API 중 하나에서 지원되지 않습니다! 화폐 거래가 작동하지 않습니다.'
+update:
+  checkFailed: '%log_prefix% 플러그인 업데이트를 확인할 수 없습니다!'
+  available: '%log_prefix% 새로운 업데이트가 있습니다! 현재 버전: %current% 최신 버전: %latest% - 다운로드: %url%'
+  availableInGame: '%prefix% &e새로운 업데이트가 있습니다! 클릭하여 다운로드: %url%'
+  inGameHover: '&e업데이트 보려면 클릭'
+command:
+  trade:
+    usage: '%prefix% &c잘못된 사용법입니다! /trade <플레이어>'
+    needOtherPlayer: '%prefix% &c자기 자신과 거래할 수 없습니다!'
+    banned: '%prefix% &c현재 거래가 금지되어 있습니다.'
+    playerBanned: '%prefix% &c해당 플레이어는 거래가 금지되어 있습니다.'
+  admin:
+    usage: '%prefix% &c잘못된 사용법입니다! /tradeadmin help'
+    activetrades:
+      title: '%prefix% &e현재 거래 중: &7(%amount%) | &e클릭하여 취소'
+      format: '&7%id%. &e%player1% &7- &e%player2% &7| &e클릭하여 취소'
+    activetradesconsole:
+      title: '%prefix% &e현재 거래 중: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7- &e%player2%'
+    activerequests:
+      title: '%prefix% &e현재 거래 요청: &7(%amount%) | &e클릭하여 취소'
+      format: '&7%id%. &e%player1% &7→ &e%player2% &7| &e클릭하여 취소'
+    activerequestsconsole:
+      title: '%prefix% &e현재 거래 요청: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7→ &e%player2%'
+    cancelHover: '&7클릭하여 취소'
+    canceltradeusage: '%prefix% &c잘못된 사용법! &7/tradeadmin canceltrade <플레이어>'
+    cancelrequestusage: '%prefix% &c잘못된 사용법! &7/tradeadmin cancelrequest <플레이어>'
+    banusage: '%prefix% &c잘못된 사용법! &7/tradeadmin ban <플레이어>'
+    unbanusage: '%prefix% &c잘못된 사용법! &7/tradeadmin unban <플레이어>'
+    banned: '%prefix% &c%s를 거래에서 금지했습니다! 해제하려면: &7/tradeadmin unban <플레이어>'
+    unbanned: '%prefix% &e%s의 거래 금지가 해제되었습니다!'
+    alreadyBanned: '%prefix% &c해당 플레이어는 이미 금지되어 있습니다!'
+    notBanned: '%prefix% &c해당 플레이어는 금지되어 있지 않습니다!'
+    nottrading: '%prefix% &c해당 플레이어는 거래 중이 아닙니다!'
+    tradecanceled: "%prefix% &e%player%의 거래를 취소했습니다."
+    requestcanceled: "%prefix% &e%player%의 거래 요청을 취소했습니다."
+    nooutgoingrequest: '%prefix% &c해당 플레이어는 보낸 거래 요청이 없습니다.'
+    help:
+      - '%prefix% &eTradeAdmin 도움말 &7(&f/thetradeadmin&7)'
+      - '&7--------------------------------'
+      - '&6/tradeadmin activetrades'
+      - '&7- &f현재 모든 거래를 확인합니다.'
+      - ''
+      - '&6/tradeadmin activerequests'
+      - '&7- &f모든 거래 요청을 확인합니다.'
+      - ''
+      - '&6/tradeadmin canceltrade <플레이어>'
+      - '&7- &f플레이어의 거래를 강제로 취소합니다.'
+      - ''
+      - '&6/tradeadmin cancelrequest <플레이어>'
+      - '&7- &f거래 요청을 강제로 취소합니다.'
+      - ''
+      - '&6/tradeadmin help'
+      - '&7- &f이 도움말을 표시합니다.'
+trade:
+  newRequest: '%prefix% &e&a%player%에게서 거래 요청이 왔습니다. &a&l클릭하여 수락'
+  acceptCommandHoverMsg: '&e/trade %player%'
+  sent: '%prefix% &e&a%player%에게 거래 요청을 보냈습니다. &a%time%s &e내에 수락해야 합니다.'
+  alreadySent: '%prefix% &c이미 거래 요청을 보냈습니다!'
+  sentExpired: '%prefix% &e%player%에게 보낸 거래 요청이 만료되었습니다.'
+  receivedExpired: '%prefix% &e%player%의 거래 요청이 만료되었습니다.'
+  requesterDenied: '%prefix% &a%player% &c가 당신의 요청을 거절했습니다.'
+  requestedDenied: "%prefix% &c당신은 &a%player%의 거래 요청을 거절했습니다."
+  playerOffline: '%prefix% &c%player%이(가) 오프라인이라 요청을 수락할 수 없습니다.'
+  playerRequestCancel: '%prefix% &a%player% &c가 거래 요청을 취소했습니다!'
+  cancelPlayer: '%prefix% &c거래를 취소했습니다.'
+  canceledOther: '%prefix% &a%player% &c가 거래를 취소했습니다.'
+  invalidMoneyInput: '%prefix% &c잘못된 금액입니다!'
+  notWithinRadius: '%prefix% &a%player% &c가 너무 멀리 있습니다! &7(%radius% 블록 이내 필요)'
+  blacklistedItem: '%prefix% &c해당 아이템은 거래할 수 없습니다.'
+  admincancel: '%prefix% &c관리자에 의해 거래가 취소되었습니다.'
+  admincancelrequestRequesterPOV: '%prefix% &c당신의 거래 요청이 &a%requested% &c에게 취소되었습니다.'
+  admincancelrequestRequestedPOV: '%prefix% &c%requester%의 거래 요청이 취소되었습니다.'
+  noMoney: '%prefix% &c보유한 금액보다 많이 넣을 수 없습니다!'
+  complete: '%prefix% &e거래 완료! 요약: '
+  summaryPositive: '&7[&a+&7]&a %item% &7- &e%amount%x'
+  summaryNegative: '&7[&c-&7]&c %item% &7- &e%amount%x'
+  summaryPositiveMoney: '&7[&a+&7]&a ₩%amount%'
+  summaryNegativeMoney: '&7[&c-&7]&c ₩%amount%'
+  bannedWorld: '%prefix% &c여기에서는 거래할 수 없습니다!'
+gui:
+  you: '당신'
+  otherPlayer: '%player%'
+  moneyitem:
+    name: '&f돈 추가'
+    lore:
+      - ' '
+      - '&e현재 금액: &a₩%amount%'
+      - '&a클릭하여 설정'
+  othermoneyitem:
+    name: "&f%player%의 예치금"
+    lore:
+      - ' '
+      - '&e현재 금액: &a₩%amount%'
+      - ' '
+      - '&7거래 완료 시'
+      - '&7이 금액을 받습니다.'
+  readyItem:
+    name: '&b준비 완료'
+    lore:
+      - ' '
+      - '&e클릭하여 거래 완료'
+  confirmedItem:
+    name: '&d확인됨'
+    lore:
+      - ' '
+      - '&7%player%를 기다리는 중.'
+      - '&c클릭하여 취소'
+  timerItem:
+    name: '&e%time%s 후 완료'
+    lore:
+      - ' '
+      - '&c클릭하여 취소'
+fileVersion: 0

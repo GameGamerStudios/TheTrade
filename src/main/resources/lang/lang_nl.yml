@@ -1,0 +1,127 @@
+prefix: '&8[&6&lH&e&lHandel&8]&r'
+logprefix: '[Handel]'
+general:
+  notPlayer: '%log_prefix% Alleen spelers kunnen dit doen!'
+  notOnline: '%prefix% &cDie speler is niet online!'
+  fileError: '%log_prefix% Kan bestand "%file%" niet maken!'
+  fileSaveError: '%log_prefix% Kan bestand "%file%" niet opslaan!'
+  noVault: '%log_prefix% Vault EN een economieplugin zijn niet gevonden! Geldhandel WORDT UITGESCHAKELD.'
+  noPermission: '%prefix% &cJe hebt geen toestemming om dit te doen.'
+  unsupportedVersion: '%log_prefix% Deze versie wordt niet ondersteund omdat een van de API''s die we gebruiken dit niet ondersteunt! Geldhandel ZAL NIET WERKEN.'
+update:
+  checkFailed: '%log_prefix% Kon pluginupdates niet controleren!'
+  available: '%log_prefix% Een nieuwe update is beschikbaar! Huidige versie: %current% Laatste versie: %latest% - Download: %url%'
+  availableInGame: '%prefix% &eEr is een nieuwe update beschikbaar! Klik om te downloaden: %url%'
+  inGameHover: '&eKlik om update te bekijken'
+command:
+  trade:
+    usage: '%prefix% &cOngeldig gebruik! /trade <speler>'
+    needOtherPlayer: '%prefix% &cJe kunt niet met jezelf handelen!'
+    banned: '%prefix% &cJe bent momenteel verbannen van handelen.'
+    playerBanned: '%prefix% &cDie speler is momenteel verbannen van handelen.'
+  admin:
+    usage: '%prefix% &cOngeldig gebruik! /tradeadmin help'
+    activetrades:
+      title: '%prefix% &eActieve trades: &7(%amount%) | &eKlik om te annuleren'
+      format: '&7%id%. &e%player1% &7- &e%player2% &7| &eKlik om te annuleren'
+    activetradesconsole:
+      title: '%prefix% &eActieve trades: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7- &e%player2%'
+    activerequests:
+      title: '%prefix% &eActieve handelsverzoeken: &7(%amount%) | &eKlik om te annuleren'
+      format: '&7%id%. &e%player1% &7naar &e%player2% &7| &eKlik om te annuleren'
+    activerequestsconsole:
+      title: '%prefix% &eActieve handelsverzoeken: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7naar &e%player2%'
+    cancelHover: '&7Klik om te annuleren'
+    canceltradeusage: '%prefix% &cOngeldig gebruik! &7/tradeadmin canceltrade <speler>'
+    cancelrequestusage: '%prefix% &cOngeldig gebruik! &7/tradeadmin cancelrequest <speler>'
+    banusage: '%prefix% &cOngeldig gebruik! &7/tradeadmin ban <speler>'
+    unbanusage: '%prefix% &cOngeldig gebruik! &7/tradeadmin unban <speler>'
+    banned: '%prefix% &cJe hebt &a%player% &cverbannen van handelen! &eOm te ontbannen, &7/tradeadmin unban <speler>'
+    unbanned: '%prefix% &eJe hebt &a%player% &eontbannen van handelen!'
+    alreadyBanned: '%prefix% &cDeze speler is al verbannen!'
+    notBanned: '%prefix% &cDeze speler is niet verbannen!'
+    nottrading: '%prefix% &cDeze speler is niet in een trade!'
+    tradecanceled: "%prefix% &eJe hebt de trade van &a%player% &egeannuleerd."
+    requestcanceled: "%prefix% &eJe hebt het handelsverzoek van &a%player% &egeannuleerd."
+    nooutgoingrequest: '%prefix% &cDeze speler heeft geen uitgaand handelsverzoek.'
+    help:
+      - '%prefix% &eTradeAdmin Help &7(&f/thetradeadmin&7)'
+      - '&7--------------------------------'
+      - '&6/tradeadmin activetrades'
+      - '&7- &fBekijk alle actieve trades.'
+      - '&7- &eKlik om een trade te annuleren.'
+      - ''
+      - '&6/tradeadmin activerequests'
+      - '&7- &fBekijk alle uitgaande handelsverzoeken.'
+      - '&7- &eKlik om een verzoek te annuleren.'
+      - ''
+      - '&6/tradeadmin canceltrade <speler>'
+      - '&7- &fForceer het annuleren van een spelers trade.'
+      - ''
+      - '&6/tradeadmin cancelrequest <speler>'
+      - '&7- &fForceer het annuleren van een verzoek.'
+      - ''
+      - '&6/tradeadmin help'
+      - '&7- &fToont dit helpmenu.'
+trade:
+  newRequest: '%prefix% &eJe hebt een handelsverzoek van &a%player%. &a&lKlik om te accepteren'
+  acceptCommandHoverMsg: '&e/trade %player%'
+  sent: '%prefix% &eJe hebt een handelsverzoek gestuurd naar &a%player%. &eHij heeft &a%time%s &eom te accepteren.'
+  alreadySent: '%prefix% &cJe hebt al een handelsverzoek gestuurd!'
+  sentExpired: '%prefix% &eJe handelsverzoek aan &a%player% &eis verlopen.'
+  receivedExpired: '%prefix% &eHet handelsverzoek van &a%player% &eis verlopen.'
+  requesterDenied: '%prefix% &a%player% &cheeft je verzoek geweigerd.'
+  requestedDenied: "%prefix% &cJe hebt het verzoek van &a%player% geweigerd."
+  playerOffline: '%prefix% &cJe handelsverzoek kon niet worden geaccepteerd omdat &a%player% &coffline is.'
+  playerRequestCancel: '%prefix% &a%player% &cheeft zijn verzoek geannuleerd!'
+  cancelPlayer: '%prefix% &cJe hebt de trade geannuleerd.'
+  canceledOther: '%prefix% &a%player% &cheeft de trade geannuleerd.'
+  invalidMoneyInput: '%prefix% &cDat is geen geldig bedrag!'
+  notWithinRadius: '%prefix% &a%player% &cis te ver weg om te handelen! &7(Moet binnen %radius% blokken zijn)'
+  blacklistedItem: '%prefix% &cJe kunt dat niet verhandelen.'
+  admincancel: '%prefix% &cJe trade is geannuleerd door een admin.'
+  admincancelrequestRequesterPOV: '%prefix% &cJe handelsverzoek naar &a%requested% &cis geannuleerd door een admin.'
+  admincancelrequestRequestedPOV: '%prefix% &cHet handelsverzoek van &a%requester% &cis geannuleerd door een admin.'
+  noMoney: '%prefix% &cJe kunt niet meer storten dan je hebt!'
+  complete: '%prefix% &eTrade voltooid! Samenvatting: '
+  summaryPositive: '&7[&a+&7]&a %item% &7- &e%amount%x'
+  summaryNegative: '&7[&c-&7]&c %item% &7- &e%amount%x'
+  summaryPositiveMoney: '&7[&a+&7]&a $%amount%'
+  summaryNegativeMoney: '&7[&c-&7]&c $%amount%'
+  bannedWorld: '%prefix% &cJe kunt hier niet handelen!'
+gui:
+  you: 'Jij'
+  otherPlayer: '%player%'
+  moneyitem:
+    name: '&fGeld toevoegen'
+    lore:
+      - ' '
+      - '&eHuidige waarde: &a$%amount%'
+      - '&aKlik om in te stellen'
+  othermoneyitem:
+    name: "&fStorting van %player%"
+    lore:
+      - ' '
+      - '&eHuidige waarde: &a$%amount%'
+      - ' '
+      - '&7Je ontvangt dit bedrag'
+      - '&7wanneer de trade voltooid is.'
+  readyItem:
+    name: '&bKlaar'
+    lore:
+      - ' '
+      - '&eKlik om de trade te voltooien'
+  confirmedItem:
+    name: '&dBevestigd'
+    lore:
+      - ' '
+      - '&7Wachten op bevestiging van %player%.'
+      - '&cKlik om te annuleren'
+  timerItem:
+    name: '&eVoltooit over %time%s'
+    lore:
+      - ' '
+      - '&cKlik om te annuleren'
+fileVersion: 0

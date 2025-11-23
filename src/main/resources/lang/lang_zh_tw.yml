@@ -1,0 +1,129 @@
+prefix: '&8[&6&l交&e&l易&8]&r'
+logprefix: '[交易]'
+general:
+  notPlayer: '%log_prefix% 只有玩家才能執行此操作!'
+  notOnline: '%prefix% &c該玩家目前不在線!'
+  fileError: '%log_prefix% 無法建立檔案 "%file%"!'
+  fileSaveError: '%log_prefix% 無法儲存檔案 "%file%"!'
+  noVault: '%log_prefix% 未找到 Vault 或經濟插件！貨幣交易將被停用。'
+  noPermission: '%prefix% &c你沒有權限執行此操作。'
+  unsupportedVersion: '%log_prefix% 此版本不受支援，因為我們使用的某個 API 不支援它！貨幣交易將無法使用。'
+update:
+  checkFailed: '%log_prefix% 檢查插件更新失敗! '
+  available: '%log_prefix% 有新版本可用! 目前版本: %current% 最新版本: %latest% - 下載: %url%'
+  availableInGame: '%prefix% &e發現新更新! 點擊下載: %url%'
+  inGameHover: '&e點擊查看更新'
+command:
+  trade:
+    usage: '%prefix% &c用法錯誤! /trade <玩家>'
+    needOtherPlayer: '%prefix% &c你不能和自己交易!'
+    banned: '%prefix% &c你目前被禁止交易。'
+    playerBanned: '%prefix% &c該玩家目前被禁止交易。'
+  admin:
+    usage: '%prefix% &c用法錯誤! /tradeadmin help'
+    activetrades:
+      title: '%prefix% &e當前交易: &7(%amount%) | &e點擊任意取消'
+      format: '&7%id%. &e%player1% &7- &e%player2% &7| &e點擊取消'
+    activetradesconsole:
+      title: '%prefix% &e當前交易: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7- &e%player2%'
+    activerequests:
+      title: '%prefix% &e當前交易請求: &7(%amount%) | &e點擊任意取消'
+      format: '&7%id%. &e%player1% &7對 &e%player2% &7| &e點擊取消'
+    activerequestsconsole:
+      title: '%prefix% &e當前交易請求: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7對 &e%player2%'
+    cancelHover: '&7點擊取消'
+    canceltradeusage: '%prefix% &c用法錯誤! &7/tradeadmin canceltrade <玩家>'
+    cancelrequestusage: '%prefix% &c用法錯誤! &7/tradeadmin cancelrequest <玩家>'
+    banusage: '%prefix% &c用法錯誤! &7/tradeadmin ban <玩家>'
+    unbanusage: '%prefix% &c用法錯誤! &7/tradeadmin unban <玩家>'
+    banned: '%prefix% &c你已禁止 &a%player% &c進行交易! &e要解除請輸入: &7/tradeadmin unban <玩家>'
+    unbanned: '%prefix% &e你已解除 &a%player% &e的交易禁令!'
+    alreadyBanned: '%prefix% &c該玩家已被禁止交易!'
+    notBanned: '%prefix% &c該玩家尚未被禁止交易!'
+    nottrading: '%prefix% &c該玩家目前未進行交易!'
+    tradecanceled: "%prefix% &e你已取消 &a%player% &e的交易。"
+    requestcanceled: "%prefix% &e你已取消 &a%player% &e的交易請求。"
+    nooutgoingrequest: '%prefix% &c該玩家沒有發送中的交易請求。'
+    help:
+      - '%prefix% &eTradeAdmin 說明 &7(&f/thetradeadmin&7)'
+      - '&7--------------------------------'
+      - '&6/tradeadmin activetrades'
+      - '&7- &f查看所有當前交易。'
+      - '&7- &e點擊任意交易以取消。'
+      - ''
+      - '&6/tradeadmin activerequests'
+      - '&7- &f查看所有交易請求。'
+      - '&7- &e點擊任意請求以取消。'
+      - ''
+      - '&6/tradeadmin canceltrade <玩家>'
+      - '&7- &f強制取消玩家的交易。'
+      - '&7- &8權限: &ethetrade.admin.canceltrades'
+      - ''
+      - '&6/tradeadmin cancelrequest <玩家>'
+      - '&7- &f強制取消玩家的請求。'
+      - '&7- &8權限: &ethetrade.admin.cancelrequests'
+      - ''
+      - '&6/tradeadmin help'
+      - '&7- &f顯示此說明選單。'
+trade:
+  newRequest: '%prefix% &e你收到了來自 &a%player% &e的交易請求。 &a&l點擊接受'
+  acceptCommandHoverMsg: '&e/trade %player%'
+  sent: '%prefix% &e你向 &a%player% &e發送了交易請求。 &e他們有 &a%time%s &e來接受。'
+  alreadySent: '%prefix% &c你已經發送過交易請求!'
+  sentExpired: '%prefix% &e你發送給 &a%player% &e的請求已過期。'
+  receivedExpired: '%prefix% &e來自 &a%player% &e的請求已過期。'
+  requesterDenied: '%prefix% &a%player% &c拒絕了你的交易請求。'
+  requestedDenied: "%prefix% &c你拒絕了 &a%player% &c的交易請求。"
+  playerOffline: '%prefix% &c你的交易請求無法被接受，因為 &a%player% &c已離線。'
+  playerRequestCancel: '%prefix% &a%player% &c取消了他們的交易請求!'
+  cancelPlayer: '%prefix% &c你已取消交易。'
+  canceledOther: '%prefix% &a%player% &c取消了交易。'
+  invalidMoneyInput: '%prefix% &c這不是有效的金額!'
+  notWithinRadius: '%prefix% &a%player% &c距離太遠無法交易! &7(必須在 %radius% 方塊內)'
+  blacklistedItem: '%prefix% &c你不能交易該物品。'
+  admincancel: '%prefix% &c你的交易已被管理員取消。'
+  admincancelrequestRequesterPOV: '%prefix% &c你對 &a%requested% &c的交易請求已被管理員取消。'
+  admincancelrequestRequestedPOV: '%prefix% &c來自 &a%requester% &c的交易請求已被管理員取消。'
+  noMoney: '%prefix% &c你不能存入超過你擁有的金額!'
+  complete: '%prefix% &e交易完成! 總結: '
+  summaryPositive: '&7[&a+&7]&a %item% &7- &e%amount%x'
+  summaryNegative: '&7[&c-&7]&c %item% &7- &e%amount%x'
+  summaryPositiveMoney: '&7[&a+&7]&a $%amount%'
+  summaryNegativeMoney: '&7[&c-&7]&c $%amount%'
+  bannedWorld: '%prefix% &c你不能在這裡交易!'
+gui:
+  you: '你'
+  otherPlayer: '%player%'
+  moneyitem:
+    name: '&f新增金額'
+    lore:
+      - ' '
+      - '&e目前金額: &a$%amount%'
+      - '&a點擊設定'
+  othermoneyitem:
+    name: "&f%player%的存款"
+    lore:
+      - ' '
+      - '&e目前金額: &a$%amount%'
+      - ' '
+      - '&7你將在交易完成後'
+      - '&7獲得這筆金額。'
+  readyItem:
+    name: '&b準備'
+    lore:
+      - ' '
+      - '&e點擊完成交易'
+  confirmedItem:
+    name: '&d已確認'
+    lore:
+      - ' '
+      - '&7等待 %player% 確認。'
+      - '&c點擊取消'
+  timerItem:
+    name: '&e%time%s 後完成'
+    lore:
+      - ' '
+      - '&c點擊取消'
+fileVersion: 0

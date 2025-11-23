@@ -13,7 +13,14 @@
 #           https://github.com/GameGamerStudios/TheTrade/wiki
 #
 
-#The language you want the plugin to run in. Current options: 'lang_en' - English
+#The language you want the plugin to run in.
+#Current options:
+# - 'lang_en' - English
+# - 'lang_es' - Español (Spanish)
+# - 'lang_nl' - Nederlands (Dutch)
+# - 'lang_ko' - 한국어 (Korean)
+# - 'lang_zh_cn' - 中文（简体） (Chinese Simplified)
+# - 'lang_zh_tw' - 中文（繁體） (Chinese Traditional)
 language: 'lang_en'
 
 #Should we log trades in 'logs.yml' ?

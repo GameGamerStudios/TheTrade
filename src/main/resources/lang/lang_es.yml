@@ -1,0 +1,129 @@
+prefix: '&8[&6&lI&e&lntercambio&8]&r'
+logprefix: '[Intercambio]'
+general:
+  notPlayer: '%log_prefix% ¡Solo los jugadores pueden hacer esto!'
+  notOnline: '%prefix% &c¡Ese jugador no está en línea!'
+  fileError: '%log_prefix% ¡No se pudo crear el archivo "%file%"!'
+  fileSaveError: '%log_prefix% ¡No se pudo guardar el archivo "%file%"!'
+  noVault: '%log_prefix% ¡No se encontró Vault NI un plugin de economía! El comercio de dinero SERÁ DESHABILITADO.'
+  noPermission: '%prefix% &cNo tienes permiso para hacer eso.'
+  unsupportedVersion: '%log_prefix% ¡Esta versión no es compatible porque una de las APIs que usamos no la soporta! El comercio de dinero NO FUNCIONARÁ.'
+update:
+  checkFailed: '%log_prefix% ¡No se pudieron comprobar las actualizaciones del plugin!'
+  available: '%log_prefix% ¡Hay una nueva actualización disponible! Versión actual: %current% Última versión: %latest% - Descargar: %url%'
+  availableInGame: '%prefix% &e¡Hay una nueva actualización disponible! Haz clic para descargar: %url%'
+  inGameHover: '&eHaz clic para ver la actualización'
+command:
+  trade:
+    usage: '%prefix% &cUso inválido! /trade <jugador>'
+    needOtherPlayer: '%prefix% &c¡No puedes comerciar contigo mismo!'
+    banned: '%prefix% &cActualmente tienes prohibido comerciar.'
+    playerBanned: '%prefix% &cEse jugador tiene prohibido comerciar.'
+  admin:
+    usage: '%prefix% &cUso inválido! /tradeadmin help'
+    activetrades:
+      title: '%prefix% &eIntercambios activos: &7(%amount%) | &eHaz clic en cualquiera para cancelar'
+      format: '&7%id%. &e%player1% &7- &e%player2% &7| &eHaz clic para cancelar'
+    activetradesconsole:
+      title: '%prefix% &eIntercambios activos: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7- &e%player2%'
+    activerequests:
+      title: '%prefix% &eSolicitudes de intercambio activas: &7(%amount%) | &eHaz clic en cualquiera para cancelar'
+      format: '&7%id%. &e%player1% &7a &e%player2% &7| &eHaz clic para cancelar'
+    activerequestsconsole:
+      title: '%prefix% &eSolicitudes de intercambio activas: &7(%amount%)'
+      format: '&7%id%. &e%player1% &7a &e%player2%'
+    cancelHover: '&7Haz clic para cancelar'
+    canceltradeusage: '%prefix% &cUso inválido! &7/tradeadmin canceltrade <jugador>'
+    cancelrequestusage: '%prefix% &cUso inválido! &7/tradeadmin cancelrequest <jugador>'
+    banusage: '%prefix% &cUso inválido! &7/tradeadmin ban <jugador>'
+    unbanusage: '%prefix% &cUso inválido! &7/tradeadmin unban <jugador>'
+    banned: '%prefix% &cHas prohibido a &a%player% &ccomerciar! &ePara desbanear, &7/tradeadmin unban <jugador>'
+    unbanned: '%prefix% &eHas desbaneado a &a%player% &ede comerciar!'
+    alreadyBanned: '%prefix% &c¡Ese jugador ya está baneado!'
+    notBanned: '%prefix% &c¡Ese jugador no está baneado!'
+    nottrading: '%prefix% &c¡Ese jugador no está en un intercambio!'
+    tradecanceled: "%prefix% &eCancelaste el intercambio de &a%player%."
+    requestcanceled: "%prefix% &eCancelaste la solicitud de intercambio de &a%player%."
+    nooutgoingrequest: '%prefix% &cEse jugador no tiene solicitudes de intercambio salientes.'
+    help:
+      - '%prefix% &eAyuda de TradeAdmin &7(&f/thetradeadmin&7)'
+      - '&7--------------------------------'
+      - '&6/tradeadmin activetrades'
+      - '&7- &fVer todos los intercambios activos.'
+      - '&7- &eHaz clic en cualquiera para cancelarlo.'
+      - ''
+      - '&6/tradeadmin activerequests'
+      - '&7- &fVer todas las solicitudes salientes.'
+      - '&7- &eHaz clic en cualquiera para cancelarla.'
+      - ''
+      - '&6/tradeadmin canceltrade <jugador>'
+      - '&7- &fForzar la cancelación de un intercambio.'
+      - '&7- &8Permiso: &ethetrade.admin.canceltrades'
+      - ''
+      - '&6/tradeadmin cancelrequest <jugador>'
+      - '&7- &fForzar la cancelación de una solicitud.'
+      - '&7- &8Permiso: &ethetrade.admin.cancelrequests'
+      - ''
+      - '&6/tradeadmin help'
+      - '&7- &fMuestra este menú de ayuda.'
+trade:
+  newRequest: '%prefix% &eTienes una solicitud de intercambio de &a%player%. &a&lHaz clic para aceptar'
+  acceptCommandHoverMsg: '&e/trade %player%'
+  sent: '%prefix% &eEnviaste una solicitud de intercambio a &a%player%. &eTiene &a%time%s &epara aceptarla.'
+  alreadySent: '%prefix% &c¡Ya enviaste una solicitud de intercambio!'
+  sentExpired: '%prefix% &eTu solicitud a &a%player% &eexpiró.'
+  receivedExpired: '%prefix% &eLa solicitud de &a%player% &eexpiró.'
+  requesterDenied: '%prefix% &a%player% &crechazó tu solicitud.'
+  requestedDenied: "%prefix% &cRechazaste la solicitud de intercambio de &a%player%."
+  playerOffline: '%prefix% &cTu solicitud de intercambio no pudo ser aceptada porque &a%player% &cestá desconectado.'
+  playerRequestCancel: '%prefix% &a%player% &ccanceló su solicitud de intercambio!'
+  cancelPlayer: '%prefix% &cCancelaste el intercambio.'
+  canceledOther: '%prefix% &a%player% &ccanceló el intercambio.'
+  invalidMoneyInput: '%prefix% &c¡Esa no es una cantidad válida!'
+  notWithinRadius: '%prefix% &a%player% &cestá demasiado lejos para comerciar! &7(Debe estar dentro de %radius% bloques)'
+  blacklistedItem: '%prefix% &cNo puedes comerciar ese objeto.'
+  admincancel: '%prefix% &cTu intercambio fue cancelado por un administrador.'
+  admincancelrequestRequesterPOV: '%prefix% &cTu solicitud de intercambio a &a%requested% &cfue cancelada por un administrador.'
+  admincancelrequestRequestedPOV: '%prefix% &cTu solicitud de intercambio de &a%requester% &cfue cancelada por un administrador.'
+  noMoney: '%prefix% &c¡No puedes depositar más de lo que tienes!'
+  complete: '%prefix% &e¡Intercambio completado! Resumen: '
+  summaryPositive: '&7[&a+&7]&a %item% &7- &e%amount%x'
+  summaryNegative: '&7[&c-&7]&c %item% &7- &e%amount%x'
+  summaryPositiveMoney: '&7[&a+&7]&a $%amount%'
+  summaryNegativeMoney: '&7[&c-&7]&c $%amount%'
+  bannedWorld: '%prefix% &c¡No puedes intercambiar aquí!'
+gui:
+  you: 'Tú'
+  otherPlayer: '%player%'
+  moneyitem:
+    name: '&fAñadir dinero'
+    lore:
+      - ' '
+      - '&eValor actual: &a$%amount%'
+      - '&aHaz clic para establecer'
+  othermoneyitem:
+    name: "&fDepósito de %player%"
+    lore:
+      - ' '
+      - '&eValor actual: &a$%amount%'
+      - ' '
+      - '&7Recibirás esta cantidad'
+      - '&7una vez que el intercambio se complete.'
+  readyItem:
+    name: '&bListo'
+    lore:
+      - ' '
+      - '&eHaz clic para completar el intercambio'
+  confirmedItem:
+    name: '&dConfirmado'
+    lore:
+      - ' '
+      - '&7Esperando a que %player% confirme.'
+      - '&cHaz clic para cancelar'
+  timerItem:
+    name: '&eCompletando en %time%s'
+    lore:
+      - ' '
+      - '&cHaz clic para cancelar'
+fileVersion: 0

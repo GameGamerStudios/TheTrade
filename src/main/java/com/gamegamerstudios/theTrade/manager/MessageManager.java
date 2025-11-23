@@ -34,6 +34,41 @@ public class MessageManager {
                     plugin.saveResource("lang/lang_en.yml", false);
                 }
                 break;
+            case "lang_nl":
+                Bukkit.getLogger().info("[Handel] Taal laden 'lang_en' (Nederlands)...");
+                file = new File(plugin.getDataFolder() + "/lang", "lang_nl.yml");
+                if (!file.exists()) {
+                    plugin.saveResource("lang/lang_nl.yml", false);
+                }
+                break;
+            case "lang_ko":
+                Bukkit.getLogger().info("[더 트레이드] 언어 로딩 중 'lang_ko' (한국어)...");
+                file = new File(plugin.getDataFolder() + "/lang", "lang_ko.yml");
+                if (!file.exists()) {
+                    plugin.saveResource("lang/lang_ko.yml", false);
+                }
+                break;
+            case "lang_zh_cn":
+                Bukkit.getLogger().info("【交易】正在加载语言 'lang_zh_cn'（简体中文）...");
+                file = new File(plugin.getDataFolder() + "/lang", "lang_zh_cn.yml");
+                if (!file.exists()) {
+                    plugin.saveResource("lang/lang_zh_cn.yml", false);
+                }
+                break;
+            case "lang_zh_tw":
+                Bukkit.getLogger().info("【交易】正在載入語言「lang_zh_tw」（簡體中文）…");
+                file = new File(plugin.getDataFolder() + "/lang", "lang_zh_tw.yml");
+                if (!file.exists()) {
+                    plugin.saveResource("lang/lang_zh_tw.yml", false);
+                }
+                break;
+            case "lang_es":
+                Bukkit.getLogger().info("[El Comercio] Cargando idioma 'lang_es' (Español)...");
+                file = new File(plugin.getDataFolder() + "/lang", "lang_es.yml");
+                if (!file.exists()) {
+                    plugin.saveResource("lang/lang_es.yml", false);
+                }
+                break;
         }
         lang = plugin.getConfig().getString("language").toLowerCase();
         if (file == null) {
