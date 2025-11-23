@@ -41,7 +41,8 @@ public class UpdateChecker {
                 String latestVersion = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
 
                 String currentVersion = plugin.getDescription().getVersion();
-                if (latestVersion != null && !latestVersion.equalsIgnoreCase(currentVersion)) {
+                if (latestVersion != null && !latestVersion.equalsIgnoreCase(currentVersion) &&
+                        Double.parseDouble(latestVersion) > Double.parseDouble(currentVersion)) {
                     plugin.getLogger().info(MessageManager.getMessage("update.available")
                             .replace("%latest%", latestVersion)
                             .replace("%current%", currentVersion)

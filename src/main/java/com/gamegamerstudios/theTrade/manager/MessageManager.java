@@ -55,6 +55,13 @@ public class MessageManager {
                     plugin.saveResource("lang/lang_zh_cn.yml", false);
                 }
                 break;
+            case "lang_zh":
+                Bukkit.getLogger().info("【交易】正在加载语言 'lang_zh_cn'（简体中文）...");
+                file = new File(plugin.getDataFolder() + "/lang", "lang_zh_cn.yml");
+                if (!file.exists()) {
+                    plugin.saveResource("lang/lang_zh_cn.yml", false);
+                }
+                break;
             case "lang_zh_tw":
                 Bukkit.getLogger().info("【交易】正在載入語言「lang_zh_tw」（簡體中文）…");
                 file = new File(plugin.getDataFolder() + "/lang", "lang_zh_tw.yml");
@@ -72,7 +79,7 @@ public class MessageManager {
         }
         lang = plugin.getConfig().getString("language").toLowerCase();
         if (file == null) {
-            Bukkit.getLogger().severe("[TheTrade] Unable to fetch a language file! Disabling plugin...");
+            Bukkit.getLogger().severe("[TheTrade] Unable to fetch a language file! Are you sure you set 'language' in config.yml correctly? Disabling plugin...");
             plugin.getServer().getPluginManager().disablePlugin(plugin);
             return;
         }

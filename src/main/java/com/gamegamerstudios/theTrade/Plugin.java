@@ -8,6 +8,7 @@ import com.gamegamerstudios.theTrade.util.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 
 public final class Plugin extends JavaPlugin {
@@ -61,15 +62,15 @@ public final class Plugin extends JavaPlugin {
     public UpdateChecker getUpdateChecker() { return updateChecker; }
 
     private void sendStartupMessages() {
-        Bukkit.getLogger().info(" ████████╗██╗  ██╗███████╗████████╗██████╗  █████╗ ██████╗ ███████╗");
-        Bukkit.getLogger().info(" ╚══██╔══╝██║  ██║██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝");
-        Bukkit.getLogger().info("    ██║   ██╔══██║██╔══╝     ██║   ██╔══██╗██╔══██║██╔══██╗██╔══╝");
-        Bukkit.getLogger().info("    ██║   ██╔══██║██╔══╝     ██║   ██╔══██╗██╔══██║██╔══██╗██╔══╝");
-        Bukkit.getLogger().info("    ██║   ██║  ██║███████╗   ██║   ██║  ██║██║  ██║██║  ██║███████╗");
-        Bukkit.getLogger().info("    ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝");
-        Bukkit.getLogger().info(" ");
-        Bukkit.getLogger().info("                      By GameGamerStudios");
-        Bukkit.getLogger().info(" ");
-        Bukkit.getLogger().info("                       Loading Plugin...");
+        Bukkit.getLogger().info("  _______ _            _______             _      ");
+        Bukkit.getLogger().info(" |__   __| |          |__   __|           | |     ");
+        Bukkit.getLogger().info("    | |  | |__   ___    | | _ __ __ _  __| | ___ ");
+        Bukkit.getLogger().info("    | |  | '_ \\ / _ \\   | || '__/ _` |/ _` |/ _ \\");
+        Bukkit.getLogger().info("    | |  | | | |  __/   | || | | (_| | (_| |  __/");
+        Bukkit.getLogger().info("    |_|  |_| |_|\\___|   |_||_|  \\__,_|\\__,_|\\___|");
+        Bukkit.getLogger().info("");
+        Bukkit.getLogger().info("              By GameGamerStudios");
+        Bukkit.getLogger().info("");
+        Bukkit.getLogger().info("               Loading TheTrade...");
     }
 }
