@@ -178,8 +178,10 @@ public class DataManager {
             logs.set(itemKey + ".material", i.getType().name());
             if (i.hasItemMeta() && i.getItemMeta() != null) {
                 logs.set(itemKey + ".name", i.getItemMeta().getDisplayName());
-                List<String> lore = new ArrayList<>(i.getItemMeta().getLore());
-                logs.set(itemKey + ".lore", lore);
+                if (i.getItemMeta().getLore() != null) {
+                    List<String> lore = new ArrayList<>(i.getItemMeta().getLore());
+                    logs.set(itemKey + ".lore", lore);
+                }
             }
             logs.set(itemKey + ".amount", i.getAmount());
             itemId++;
@@ -190,8 +192,10 @@ public class DataManager {
             logs.set(itemKey + ".material", i.getType().name());
             if (i.hasItemMeta() && i.getItemMeta() != null) {
                 logs.set(itemKey + ".name", i.getItemMeta().getDisplayName());
-                List<String> lore = new ArrayList<>(i.getItemMeta().getLore());
-                logs.set(itemKey + ".lore", lore);
+                if (i.getItemMeta().getLore() != null) {
+                    List<String> lore = new ArrayList<>(i.getItemMeta().getLore());
+                    logs.set(itemKey + ".lore", lore);
+                }
             }
             logs.set(itemKey + ".amount", i.getAmount());
             itemId++;
@@ -229,7 +233,7 @@ public class DataManager {
             logs.set(key + ".action", "UNBANNED");
         }
         logs.set(key + ".affectedPlayer.name", (player.isOnline() ? Bukkit.getPlayer(player.getUniqueId()).getDisplayName() : player.getName()));
-        logs.set(key + ".affectedPlayer.uuid", player.getUniqueId());
+        logs.set(key + ".affectedPlayer.uuid", player.getUniqueId().toString());
         logs.set(key + ".byUser.name", ((banner instanceof Player) ? ((Player) banner).getDisplayName() : "console"));
         logs.set(key + ".byUser.uuid", ((banner instanceof Player) ? ((Player) banner).getUniqueId() : "console"));
         saveLogs();

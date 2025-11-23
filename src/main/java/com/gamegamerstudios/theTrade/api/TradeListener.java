@@ -1,10 +1,14 @@
 package com.gamegamerstudios.theTrade.api;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.gamegamerstudios.theTrade.Plugin;
 import com.gamegamerstudios.theTrade.manager.ConfigManager;
 import com.gamegamerstudios.theTrade.manager.MessageManager;
 import com.gamegamerstudios.theTrade.manager.TradeManager;
+import com.gamegamerstudios.theTrade.util.InventoryViewCompact;
 import com.gamegamerstudios.theTrade.util.Utils;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import de.rapha149.signgui.SignGUI;
 import de.rapha149.signgui.SignGUIAction;
 import de.rapha149.signgui.exception.SignGUIVersionException;
@@ -17,32 +21,40 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class TradeListener implements Listener {
     private final Plugin plugin;
     private final TradeManager tradeManager;
     private final List<UUID> inputting = new ArrayList<>();
+    private final Cache<UUID, Long> rightClicking = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.SECONDS).build();
     public TradeListener(Plugin plugin, TradeManager tradeManager) {
         this.plugin = plugin;
         this.tradeManager = tradeManager;
     }
     @EventHandler
     public void onTradeClick(InventoryClickEvent e) {
-        if (!e.getView().getTitle().contains("You")) return;
+        String title = InventoryViewCompact.getTitle(e);
+        if (!title.contains("You")) return;
         if (e.getClickedInventory() == null) return;
         Player p = (Player) e.getWhoClicked();
 
-        Trade trade = tradeManager.getActiveTrades().stream().filter(t -> t.getPlayer1() == p || t.getPlayer2() == p).findFirst().orElse(null);
+        Trade trade = tradeManager.getActiveTrades()
+                .stream()
+                .filter(t -> t.getPlayer1() == p || t.getPlayer2() == p)
+                .findFirst()
+                .orElse(null);
         if (trade == null) return;
 
-        if (e.getRawSlot() >= e.getView().getTopInventory().getSize()) {
+        int topSize = InventoryViewCompact.getTopInventory(e).getSize();
+        if (e.getRawSlot() >= topSize) {
             if (e.isShiftClick()) {
                 e.setCancelled(true);
             }
@@ -144,11 +156,16 @@ public class TradeListener implements Listener {
             return;
         }
 
-        if (e.getCursor() != null && e.getCursor().getType() != Material.AIR) {
+        if (e.getCursor() != null && !Utils.isAir(e.getCursor())) {
             for (String str : plugin.getConfig().getStringList("blacklistItems")) {
-                Material material = Material.matchMaterial(str);
+                XMaterial mat = XMaterial.matchXMaterial(str).orElse(null);
+                if (mat == null) continue;
+
+                Material material = mat.parseMaterial();
                 if (material == null) { continue; }
                 Material currentType = (e.getCurrentItem() == null ? Material.AIR : e.getCurrentItem().getType());
+
+
                 if (material == e.getCursor().getType() || material == currentType) {
                     p.sendMessage(MessageManager.getMessage("trade.blacklistedItem"));
                     e.setCancelled(true);
@@ -164,7 +181,7 @@ public class TradeListener implements Listener {
 
             // swap items
             ItemStack invItem = e.getCurrentItem().clone();
-            if (!invItem.isSimilar(e.getCursor().clone())) {
+            if (!invItem.getType().equals(e.getCursor().getType())) {
                 trade.updateItem(p, e.getCursor().clone(), e.getRawSlot());
                 e.setCursor(invItem);
                 return;
@@ -191,7 +208,7 @@ public class TradeListener implements Listener {
             return;
         }
 
-        if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
+        if (e.getCurrentItem() != null && !Utils.isAir(e.getCurrentItem())) {
             ItemStack clone = e.getCurrentItem().clone();
             trade.removeItem(p, e.getRawSlot());
             e.setCursor(clone);
@@ -201,10 +218,10 @@ public class TradeListener implements Listener {
 
     @EventHandler
     public void onTradeDrag(InventoryDragEvent e) {
-        if (!e.getView().getTitle().contains("You")) return;
+        if (!InventoryViewCompact.getTitle(e).contains("You")) return;
 
         for (int slot : e.getRawSlots()) {
-            if (slot < e.getView().getTopInventory().getSize()) {
+            if (slot < InventoryViewCompact.getTopInventory(e).getSize()) {
                 e.setCancelled(true);
                 return;
             }
@@ -213,7 +230,7 @@ public class TradeListener implements Listener {
 
     @EventHandler
     public void onTradeClose(InventoryCloseEvent e) {
-        if (!e.getView().getTitle().contains("You")) return;
+        if (!InventoryViewCompact.getTitle(e).contains("You")) return;
         Player p = (Player) e.getPlayer();
         if (inputting.contains(p.getUniqueId())) return;
 
@@ -233,9 +250,9 @@ public class TradeListener implements Listener {
         Player p = e.getPlayer();
 
         if (plugin.getRequestManager().hasRequest(p.getUniqueId())) {
-            plugin.getRequestManager().cancelRequests(p.getUniqueId(), false);
             plugin.getRequestManager().denyRequest(p.getUniqueId());
         }
+        plugin.getRequestManager().cancelRequests(e.getPlayer().getUniqueId(), false);
 
         Trade trade = null;
         for (Trade t : tradeManager.getActiveTrades()) {
@@ -267,5 +284,37 @@ public class TradeListener implements Listener {
         }
 
         e.getPlayer().spigot().sendMessage(components);
+    }
+
+    @EventHandler
+    public void onShiftTrade(PlayerInteractAtEntityEvent e) {
+        if (!plugin.getConfig().getBoolean("shiftClickTrade")) return;
+        if (!(e.getRightClicked() instanceof Player)) return;
+        Player p = e.getPlayer();
+        if (!p.isSneaking()) return;
+        if (rightClicking.asMap().containsKey(p.getUniqueId())) return;
+        Player target = (Player) e.getRightClicked();
+
+        if (plugin.getDataManager().isBanned(p.getUniqueId())) {
+            p.sendMessage(MessageManager.getMessage("command.trade.banned"));
+            return;
+        }
+        if (plugin.getDataManager().isBanned(target.getUniqueId())) {
+            p.sendMessage(MessageManager.getMessage("command.trade.playerBanned"));
+            return;
+        }
+
+        if (plugin.getRequestManager().hasRequest(p.getUniqueId(), target.getUniqueId())) {
+            plugin.getRequestManager().acceptRequest(target.getUniqueId(), p.getUniqueId());
+            return;
+        }
+
+        rightClicking.put(p.getUniqueId(), 1000L);
+        plugin.getRequestManager().newRequest(
+                p.getUniqueId(),
+                p.getDisplayName(),
+                target.getUniqueId(),
+                target.getDisplayName()
+        );
     }
 }

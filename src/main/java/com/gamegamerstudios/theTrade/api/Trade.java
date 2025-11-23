@@ -1,5 +1,6 @@
 package com.gamegamerstudios.theTrade.api;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.gamegamerstudios.theTrade.Plugin;
 import com.gamegamerstudios.theTrade.manager.MessageManager;
 import com.gamegamerstudios.theTrade.util.Utils;
@@ -60,7 +61,7 @@ public class Trade {
         for (ItemStack item : items.get(player2.getUniqueId()).values()) {
             Utils.giveItem(player1, item);
             String itemDisplay = (item.getItemMeta() != null && item.hasItemMeta() ? item.getItemMeta().getDisplayName()
-                    : Utils.getVanillaName(item));
+                    : Utils.getSafeItemName(item));
             player1.sendMessage(MessageManager.getMessage("trade.summaryPositive")
                     .replace("%item%", itemDisplay)
                     .replace("%amount%", item.getAmount() + ""));
@@ -72,7 +73,7 @@ public class Trade {
         for (ItemStack item : items.get(player1.getUniqueId()).values()) {
             Utils.giveItem(player2, item);
             String itemDisplay = (item.getItemMeta() != null && item.hasItemMeta() ? item.getItemMeta().getDisplayName()
-                    : Utils.getVanillaName(item));
+                    : Utils.getSafeItemName(item));
             player2.sendMessage(MessageManager.getMessage("trade.summaryPositive")
                     .replace("%item%", itemDisplay)
                     .replace("%amount%", item.getAmount() + ""));

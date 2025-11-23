@@ -31,6 +31,13 @@ public class TradeCommand implements CommandExecutor {
             return true;
         }
 
+        for (String str : plugin.getConfig().getStringList("tradeBannedWorlds")) {
+            if (p.getLocation().getWorld().getName().equalsIgnoreCase(str)) {
+                p.sendMessage(MessageManager.getMessage("trade.bannedWorld"));
+                return true;
+            }
+        }
+
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
             p.sendMessage(MessageManager.getMessage("general.notOnline"));

@@ -31,6 +31,14 @@ requestDuration: 30
 #Default: 3
 completeTimer: 3
 
+#Should we send a trade request to a player when shift right-clicking them?
+#Default: true
+shiftClickTrade: true
+
+#Trading will be prevented in any of the worlds in this list.
+tradeBannedWorlds:
+  - 'put_the_name_of_the_world_here'
+
 #Should we allow an option to trade money (currency)?
 #If this is false, the currency button will be hidden.
 #We currently hook into Vault, which supports (most) economy plugins.

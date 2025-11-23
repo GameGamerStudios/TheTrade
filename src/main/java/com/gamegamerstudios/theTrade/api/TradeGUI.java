@@ -1,5 +1,6 @@
 package com.gamegamerstudios.theTrade.api;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.gamegamerstudios.theTrade.Plugin;
 import com.gamegamerstudios.theTrade.manager.MessageManager;
 import org.bukkit.Bukkit;
@@ -35,7 +36,7 @@ public class TradeGUI {
     private void setupGUI() {
         for (int i = 0; i < inv.getSize(); i++) {
             if ((i % 9) != 4) continue;
-            ItemStack filler = new ItemStack(Material.STAINED_GLASS_PANE, 1);
+            ItemStack filler = XMaterial.GRAY_STAINED_GLASS_PANE.parseItem();
             ItemMeta fillerMeta = filler.getItemMeta();
             fillerMeta.setDisplayName("");
             filler.setItemMeta(fillerMeta);
@@ -118,6 +119,7 @@ public class TradeGUI {
     private ItemStack getCountdownItem() {
         ItemStack item = new ItemStack(Material.DIAMOND);
         ItemMeta meta = item.getItemMeta();
+        item.setAmount(Math.max((Math.min(trade.getTradeTimer().getTimeLeft(), item.getMaxStackSize())), 1));
         meta.setDisplayName(MessageManager.getMessage("gui.timerItem.name").replace("%time%",
                 trade.getTradeTimer().getTimeLeft() + ""));
         List<String> lore = MessageManager.getMessageList("gui.timerItem.lore");

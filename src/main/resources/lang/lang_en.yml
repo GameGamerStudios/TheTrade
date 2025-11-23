@@ -92,6 +92,7 @@ trade:
   summaryNegative: '&7[&c-&7]&c %item% &7- &e%amount%x'
   summaryPositiveMoney: '&7[&a+&7]&a $%amount%'
   summaryNegativeMoney: '&7[&c-&7]&c $%amount%'
+  bannedWorld: '%prefix% &cYou cannot trade here!'
 gui:
   you: 'You'
   otherPlayer: '%player%'

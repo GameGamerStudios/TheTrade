@@ -1,11 +1,13 @@
 package com.gamegamerstudios.theTrade.util;
 
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -108,19 +110,62 @@ public class Utils {
     }
 
     public static String getVanillaName(ItemStack item) {
-        if (item == null || item.getType() == Material.AIR) return "Air";
+        if (item == null || isAir(item)) return "Air";
 
-        String name = item.getType().name().toLowerCase().replace("_", " ");
+        Material type = item.getType();
+
+        XMaterial xmat;
+        try {
+            xmat = XMaterial.matchXMaterial(type);
+        } catch (Exception e) {
+            xmat = null;
+        }
+
+        String name;
+
+        if (xmat != null) {
+            name = xmat.name();
+        } else {
+            name = type.name();
+        }
+
+        name = name.toLowerCase().replace("_", " ");
 
         String[] words = name.split(" ");
         StringBuilder builder = new StringBuilder();
 
         for (String word : words) {
-            builder.append(word.substring(0, 1).toUpperCase())
+            if (word.length() == 0) continue;
+            builder.append(Character.toUpperCase(word.charAt(0)))
                     .append(word.substring(1))
                     .append(" ");
         }
 
         return builder.toString().trim();
+    }
+
+    public static String getSafeItemName(ItemStack item) {
+        if (item == null || Utils.isAir(item)) return "Air";
+
+        ItemMeta meta = item.getItemMeta();
+
+        // Check if it has a valid custom name
+        if (meta != null && meta.hasDisplayName()) {
+            String name = meta.getDisplayName();
+            if (name != null && !name.trim().isEmpty()) {
+                return name;
+            }
+        }
+
+        // Fallback to vanilla name
+        return Utils.getVanillaName(item);
+    }
+
+    public static boolean isAir(ItemStack item) {
+        if (item == null) return true;
+        Material type = item.getType();
+        return type == Material.AIR ||
+                type.name().equalsIgnoreCase("CAVE_AIR") ||
+                type.name().equalsIgnoreCase("VOID_AIR");
     }
 }

@@ -4,7 +4,6 @@ import com.gamegamerstudios.theTrade.Plugin;
 import com.gamegamerstudios.theTrade.api.Trade;
 import com.gamegamerstudios.theTrade.api.TradeRequest;
 import com.gamegamerstudios.theTrade.manager.MessageManager;
-import com.sun.org.apache.xalan.internal.res.XSLTErrorResources_en;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
